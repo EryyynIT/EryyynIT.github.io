@@ -20,8 +20,8 @@
 
 /* --- Site-wide constants (shared, not localized) --------------------- */
 const SITE_BASE = {
-  canonicalUrl: "https://eryyynit.github.io/personal-hub/",
-  ruUrl: "https://eryyynit.github.io/personal-hub/ru/",
+  canonicalUrl: "https://eryyynit.github.io/",
+  ruUrl: "https://eryyynit.github.io/ru/",
   boosty: "https://boosty.to/eryyynit",
   github: "https://github.com/EryyynIT",
   telegramPersonal: "https://t.me/eprintln"

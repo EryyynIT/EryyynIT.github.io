@@ -31,8 +31,8 @@ EryyynIT / Backend Developer · Go / Python
 
 ## Languages
 
-- **English (primary)** — `index.html` at the site root (`https://eryyynit.github.io/personal-hub/`)
-- **Russian** — `ru/index.html` (`https://eryyynit.github.io/personal-hub/ru/`)
+- **English (primary)** — `index.html` at the site root (`https://eryyynit.github.io/`)
+- **Russian** — `ru/index.html` (`https://eryyynit.github.io/ru/`)
 
 Both pages share one content source — `data/content.js` holds EN + RU data, and `js/main.js`
 picks the active language from the `<html lang>` attribute. The compact `EN / RU` switcher

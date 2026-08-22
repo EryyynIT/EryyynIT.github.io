@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://eryyynit.github.io/personal-hub/sitemap.xml
+Sitemap: https://eryyynit.github.io/sitemap.xml
