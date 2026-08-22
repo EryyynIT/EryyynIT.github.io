@@ -711,12 +711,13 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   gap: clamp(1.6rem, 4vw, 3rem);
   align-items: start;
 }
+#about .section-head { margin-bottom: var(--space-6); }
 .about-text { color: var(--text-2); font-size: 1.02rem; line-height: 1.65; }
-.about-text p { max-width: 62ch; }
+.about-text p { max-width: 58ch; }
 .about-text p + p { margin-top: 1rem; }
 
 /* ---------- Work with me ---------- */
-#work { padding-top: calc(var(--section-y) * 0.6); }
+#work { padding-top: calc(var(--section-y) * 0.3); }
 .contact-band {
   display: flex;
   align-items: center;
