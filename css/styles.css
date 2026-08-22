@@ -111,6 +111,7 @@ a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 h1, h2, h3, h4 { margin: 0; line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; }
 p { margin: 0; }
+figure { margin: 0; }
 ul { margin: 0; padding: 0; list-style: none; }
 button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 
@@ -613,6 +614,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .game-media { display: grid; gap: 1rem; }
 .game-cover {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--radius);
@@ -622,6 +624,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .game-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
 .game-shot img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--radius-sm);
