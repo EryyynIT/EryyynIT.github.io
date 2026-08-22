@@ -1,0 +1,14 @@
+{
+  "name": "personal-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EryyynIT personal hub — static one-page site pre-rendered from data/content.js at build time",
+  "scripts": {
+    "build": "node scripts/generate-site.js",
+    "pretest": "node scripts/generate-site.js",
+    "test": "node test/smoke.test.js && node test/lang-redirect.test.js"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
