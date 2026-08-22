@@ -393,6 +393,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
    #projects-grid is a plain container; the actual grids live inside:
    .projects-featured (tier cards) and .projects-compact (rows). */
 .projects-grid { display: block; }
+#projects { padding-bottom: calc(var(--section-y) * 0.75); }
+#projects .section-note { margin-top: var(--space-4); }
 
 .project-card { overflow: hidden; display: flex; flex-direction: column; }
 .project-media {
@@ -542,6 +544,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 /* ---------- Build areas ---------- */
 .section-alt { background: var(--surface-2); border-block: 1px solid var(--border); }
+#build .section-head { margin-bottom: var(--space-6); }
 .build-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
@@ -709,6 +712,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .about-text p + p { margin-top: 1rem; }
 
 /* ---------- Work with me ---------- */
+#work { padding-top: calc(var(--section-y) * 0.6); }
 .contact-band {
   display: flex;
   align-items: center;
