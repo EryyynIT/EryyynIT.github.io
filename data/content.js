@@ -104,7 +104,7 @@ const CONTENT_EN = {
       url: "#game",
       urlLabel: "See the project",
       image: "assets/game/cover.svg",
-      imageAlt: "UndeadOverhaul — placeholder cover art"
+      imageAlt: "UndeadOverhaul — cover art"
     },
     {
       title: "ADNova",
@@ -135,7 +135,7 @@ const CONTENT_EN = {
       url: "https://github.com/EryyynIT/async-payment-processing-service",
       urlLabel: "View on GitHub",
       image: "assets/projects/async-payment.svg",
-      imageAlt: "Async Payment Processing Service — placeholder cover"
+      imageAlt: "Async Payment Processing Service — cover"
     },
     {
       title: "queue",
@@ -151,7 +151,7 @@ const CONTENT_EN = {
       url: "https://github.com/EryyynIT/queue",
       urlLabel: "View on GitHub",
       image: "assets/projects/queue.svg",
-      imageAlt: "queue — placeholder cover"
+      imageAlt: "queue — cover"
     },
     {
       title: "MailingTGBot",
@@ -166,7 +166,7 @@ const CONTENT_EN = {
       url: "https://github.com/EryyynIT/MailingTGBot",
       urlLabel: "View on GitHub",
       image: "assets/projects/mailing-tgbot.svg",
-      imageAlt: "MailingTGBot — placeholder cover"
+      imageAlt: "MailingTGBot — cover"
     },
     {
       title: "go-exercises",
@@ -181,7 +181,7 @@ const CONTENT_EN = {
       url: "https://github.com/EryyynIT/go-exercises",
       urlLabel: "View on GitHub",
       image: "assets/projects/go-exercises.svg",
-      imageAlt: "go-exercises — placeholder cover"
+      imageAlt: "go-exercises — cover"
     },
     {
       title: "Tic-Tac-ToeAI",
@@ -196,7 +196,7 @@ const CONTENT_EN = {
       url: "https://github.com/EryyynIT/Tic-Tac-ToeAI",
       urlLabel: "View on GitHub",
       image: "assets/projects/tic-tac-toe-ai.svg",
-      imageAlt: "Tic-Tac-ToeAI — placeholder cover"
+      imageAlt: "Tic-Tac-ToeAI — cover"
     }
   ],
 
@@ -242,9 +242,9 @@ const CONTENT_EN = {
     platforms: [],      // e.g. ["PC"]
     storeUrl: null,     // TODO: Steam / itch.io link once available
     gallery: [
-      { src: "assets/game/screenshot-01.svg", alt: "UndeadOverhaul — placeholder screenshot 01", label: "Screenshot" },
-      { src: "assets/game/screenshot-02.svg", alt: "UndeadOverhaul — placeholder screenshot 02", label: "Screenshot" },
-      { src: "assets/game/concept-01.svg",   alt: "UndeadOverhaul — placeholder concept art 01", label: "Concept art" }
+      { src: "assets/game/screenshot-01.svg", alt: "UndeadOverhaul — screenshot 01", label: "Screenshot" },
+      { src: "assets/game/screenshot-02.svg", alt: "UndeadOverhaul — screenshot 02", label: "Screenshot" },
+      { src: "assets/game/concept-01.svg",   alt: "UndeadOverhaul — concept art 01", label: "Concept art" }
     ]
   },
 
@@ -423,7 +423,7 @@ const CONTENT_RU = {
       url: "#game",
       urlLabel: "Смотреть проект",
       image: "assets/game/cover.svg",
-      imageAlt: "UndeadOverhaul — обложка-заглушка"
+      imageAlt: "UndeadOverhaul — обложка"
     },
     {
       title: "ADNova",
@@ -454,7 +454,7 @@ const CONTENT_RU = {
       url: "https://github.com/EryyynIT/async-payment-processing-service",
       urlLabel: "Смотреть на GitHub",
       image: "assets/projects/async-payment.svg",
-      imageAlt: "Async Payment Processing Service — обложка-заглушка"
+      imageAlt: "Async Payment Processing Service — обложка"
     },
     {
       title: "queue",
@@ -470,7 +470,7 @@ const CONTENT_RU = {
       url: "https://github.com/EryyynIT/queue",
       urlLabel: "Смотреть на GitHub",
       image: "assets/projects/queue.svg",
-      imageAlt: "queue — обложка-заглушка"
+      imageAlt: "queue — обложка"
     },
     {
       title: "MailingTGBot",
@@ -485,7 +485,7 @@ const CONTENT_RU = {
       url: "https://github.com/EryyynIT/MailingTGBot",
       urlLabel: "Смотреть на GitHub",
       image: "assets/projects/mailing-tgbot.svg",
-      imageAlt: "MailingTGBot — обложка-заглушка"
+      imageAlt: "MailingTGBot — обложка"
     },
     {
       title: "go-exercises",
@@ -500,7 +500,7 @@ const CONTENT_RU = {
       url: "https://github.com/EryyynIT/go-exercises",
       urlLabel: "Смотреть на GitHub",
       image: "assets/projects/go-exercises.svg",
-      imageAlt: "go-exercises — обложка-заглушка"
+      imageAlt: "go-exercises — обложка"
     },
     {
       title: "Tic-Tac-ToeAI",
@@ -515,7 +515,7 @@ const CONTENT_RU = {
       url: "https://github.com/EryyynIT/Tic-Tac-ToeAI",
       urlLabel: "Смотреть на GitHub",
       image: "assets/projects/tic-tac-toe-ai.svg",
-      imageAlt: "Tic-Tac-ToeAI — обложка-заглушка"
+      imageAlt: "Tic-Tac-ToeAI — обложка"
     }
   ],
 
@@ -551,9 +551,9 @@ const CONTENT_RU = {
     platforms: [],
     storeUrl: null,
     gallery: [
-      { src: "assets/game/screenshot-01.svg", alt: "UndeadOverhaul — скриншот-заглушка 01", label: "Скриншот" },
-      { src: "assets/game/screenshot-02.svg", alt: "UndeadOverhaul — скриншот-заглушка 02", label: "Скриншот" },
-      { src: "assets/game/concept-01.svg",   alt: "UndeadOverhaul — концепт-арт-заглушка 01", label: "Концепт-арт" }
+      { src: "assets/game/screenshot-01.svg", alt: "UndeadOverhaul — скриншот 01", label: "Скриншот" },
+      { src: "assets/game/screenshot-02.svg", alt: "UndeadOverhaul — скриншот 02", label: "Скриншот" },
+      { src: "assets/game/concept-01.svg",   alt: "UndeadOverhaul — концепт-арт 01", label: "Концепт-арт" }
     ]
   },
 
