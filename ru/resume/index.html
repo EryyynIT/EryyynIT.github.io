@@ -54,8 +54,7 @@
         } else if (!prefersRu && page === 'ru') {
           target = 'en';
         }
-        if (target === 'ru' && page === 'en') location.replace('resume/');
-        else if (target === 'en' && page === 'ru') location.replace('../resume/');
+        if (target === 'en') location.replace('../../resume/');
       } catch (e) {
         /* localStorage / navigator unavailable — keep the current page */
       }
@@ -111,7 +110,7 @@
 
       <div class="nav-actions">
         <div class="lang-switch" role="group" aria-label="Язык">
-          <a class="lang-link" href="../resume/" lang="en" hreflang="en">EN</a>
+          <a class="lang-link" href="../../resume/" lang="en" hreflang="en">EN</a>
           <span class="lang-sep" aria-hidden="true">/</span>
           <span class="lang-current" aria-current="true">RU</span>
         </div>

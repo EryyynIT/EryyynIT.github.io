@@ -133,6 +133,17 @@ function runChecks(html, lang) {
   add('no-personal-hub-url', !html.includes('/personal-hub/'));
   add('no-placeholder-wording', !html.toLowerCase().includes('placeholder'));
 
+  /* --- Language switch href must resolve to the sibling page's absolute URL --- */
+  add('lang-switch-resolves', (() => {
+    const m = html.match(/<a class="lang-link" href="([^"]+)"/);
+    if (!m) return false;
+    try {
+      const base = isRu ? 'http://localhost:8080/ru/resume/' : 'http://localhost:8080/resume/';
+      const want = isRu ? 'http://localhost:8080/resume/' : 'http://localhost:8080/ru/resume/';
+      return new URL(m[1], base).href === want;
+    } catch (e) { return false; }
+  })());
+
   /* --- Relative URL integrity: every relative src/href must resolve --- */
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
   const relative = refs.filter((u) => !u.startsWith('#') && !u.startsWith('http') && !u.startsWith('data:') && !u.startsWith('mailto:'));
@@ -203,15 +214,15 @@ function langCheck(name, script, pageLang, opts, expected) {
 }
 
 const langCases = [
-  langCheck('EN resume, saved=ru -> ru/resume/', enScript, 'en', { saved: 'ru', language: 'en' }, ['ru/resume/']),
-  langCheck('EN resume, ru-preferred browser -> ru/resume/', enScript, 'en', { language: 'ru-RU' }, ['ru/resume/']),
+  langCheck('EN resume, saved=ru -> ../ru/resume/', enScript, 'en', { saved: 'ru', language: 'en' }, ['../ru/resume/']),
+  langCheck('EN resume, ru-preferred browser -> ../ru/resume/', enScript, 'en', { language: 'ru-RU' }, ['../ru/resume/']),
   langCheck('EN resume, en-preferred browser -> stay', enScript, 'en', { language: 'en-US' }, []),
   langCheck('EN resume, saved=en, ru-preferred browser -> stay', enScript, 'en', { saved: 'en', language: 'ru' }, []),
   langCheck('EN resume, googlebot, ru-preferred -> stay', enScript, 'en', {
     userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)', language: 'ru-RU'
   }, []),
-  langCheck('RU resume, saved=en -> ../resume/', ruScript, 'ru', { saved: 'en', language: 'ru' }, ['../resume/']),
-  langCheck('RU resume, en-preferred browser -> ../resume/', ruScript, 'ru', { language: 'en-US' }, ['../resume/']),
+  langCheck('RU resume, saved=en -> ../../resume/', ruScript, 'ru', { saved: 'en', language: 'ru' }, ['../../resume/']),
+  langCheck('RU resume, en-preferred browser -> ../../resume/', ruScript, 'ru', { language: 'en-US' }, ['../../resume/']),
   langCheck('RU resume, ru-preferred browser -> stay', ruScript, 'ru', { language: 'ru-RU' }, []),
   langCheck('RU resume, saved=ru, en-preferred browser -> stay', ruScript, 'ru', { saved: 'ru', language: 'en' }, []),
   langCheck('RU resume, bingbot, en-preferred -> stay', ruScript, 'ru', {
@@ -219,7 +230,24 @@ const langCases = [
   }, [])
 ];
 
-const report = { en, ru, langBootstrap: langCases };
+/* --- Bootstrap redirect targets must resolve to real pages (regression:
+       relative paths like 'ru/resume/' or '../resume/' resolved against
+       /resume/ and /ru/resume/ produced broken URLs such as
+       /resume/ru/resume/ or the page itself). --- */
+const enBootTarget = (read('resume/index.html').match(/location\.replace\('([^']+)'\)/) || [])[1];
+const ruBootTarget = (read('ru/resume/index.html').match(/location\.replace\('([^']+)'\)/) || [])[1];
+const bootResolve = [
+  {
+    name: 'EN bootstrap target resolves to /ru/resume/',
+    pass: !!enBootTarget && new URL(enBootTarget, 'http://localhost:8080/resume/').href === 'http://localhost:8080/ru/resume/'
+  },
+  {
+    name: 'RU bootstrap target resolves to /resume/',
+    pass: !!ruBootTarget && new URL(ruBootTarget, 'http://localhost:8080/ru/resume/').href === 'http://localhost:8080/resume/'
+  }
+];
+
+const report = { en, ru, langBootstrap: langCases, bootResolve };
 console.log(JSON.stringify(report, null, 2));
 
 let pass = true;
@@ -234,6 +262,9 @@ let pass = true;
 });
 langCases.forEach((c) => {
   if (!c.pass) { pass = false; console.error('FAIL [lang]:', c.name, c); }
+});
+bootResolve.forEach((b) => {
+  if (!b.pass) { pass = false; console.error('FAIL [boot]:', b.name); }
 });
 
 if (!pass) process.exit(1);
