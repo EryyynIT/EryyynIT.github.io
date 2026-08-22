@@ -192,7 +192,11 @@ function runLang(script, pageLang, opts) {
       userAgent: opts.userAgent,
       webdriver: opts.webdriver
     },
-    location: { replace: (u) => calls.push(String(u)) },
+    location: {
+      replace: (u) => calls.push(String(u)),
+      search: opts.search || '',
+      hash: opts.hash || ''
+    },
     localStorage: {
       getItem: (k) => (k in store ? store[k] : null),
       setItem: () => {}
@@ -227,15 +231,28 @@ const langCases = [
   langCheck('RU resume, saved=ru, en-preferred browser -> stay', ruScript, 'ru', { saved: 'ru', language: 'en' }, []),
   langCheck('RU resume, bingbot, en-preferred -> stay', ruScript, 'ru', {
     userAgent: 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)', language: 'en-US'
-  }, [])
+  }, []),
+  langCheck('EN resume, saved=ru, #experience -> ../ru/resume/#experience',
+    enScript, 'en', { saved: 'ru', language: 'en', hash: '#experience' }, ['../ru/resume/#experience']),
+  langCheck('EN resume, saved=ru, ?source=x#experience -> ../ru/resume/?source=x#experience',
+    enScript, 'en', { saved: 'ru', language: 'en', search: '?source=x', hash: '#experience' }, ['../ru/resume/?source=x#experience']),
+  langCheck('RU resume, saved=en, #skills -> ../../resume/#skills',
+    ruScript, 'ru', { saved: 'en', language: 'ru', hash: '#skills' }, ['../../resume/#skills']),
+  langCheck('RU resume, saved=en, ?source=x#skills -> ../../resume/?source=x#skills',
+    ruScript, 'ru', { saved: 'en', language: 'ru', search: '?source=x', hash: '#skills' }, ['../../resume/?source=x#skills'])
 ];
 
 /* --- Bootstrap redirect targets must resolve to real pages (regression:
        relative paths like 'ru/resume/' or '../resume/' resolved against
        /resume/ and /ru/resume/ produced broken URLs such as
-       /resume/ru/resume/ or the page itself). --- */
-const enBootTarget = (read('resume/index.html').match(/location\.replace\('([^']+)'\)/) || [])[1];
-const ruBootTarget = (read('ru/resume/index.html').match(/location\.replace\('([^']+)'\)/) || [])[1];
+       /resume/ru/resume/ or the page itself). The suffix keeps the query
+       string and hash, so the base path is extracted before '+ suffix'. --- */
+function extractBootPath(html) {
+  const m = html.match(/location\.replace\('([^']+)'\s*\+\s*suffix\)/);
+  return m ? m[1] : null;
+}
+const enBootTarget = extractBootPath(read('resume/index.html'));
+const ruBootTarget = extractBootPath(read('ru/resume/index.html'));
 const bootResolve = [
   {
     name: 'EN bootstrap target resolves to /ru/resume/',

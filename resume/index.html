@@ -39,6 +39,17 @@
         } catch (e) { /* navigator unavailable — assume a real browser */ }
         if (isBot) return;
 
+        // Keep Back/Forward navigations intact: after a manual language
+        // switch the previous language page must stay visible instead of
+        // bouncing straight back to the current choice.
+        try {
+          if (typeof performance !== 'undefined' && performance.getEntriesByType &&
+              performance.getEntriesByType('navigation').length &&
+              performance.getEntriesByType('navigation')[0].type === 'back_forward') {
+            return;
+          }
+        } catch (e) { /* performance unavailable — redirect normally */ }
+
         var saved = localStorage.getItem('lang');
         var page = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
         var preferred = String(
@@ -54,7 +65,10 @@
         } else if (!prefersRu && page === 'ru') {
           target = 'en';
         }
-        if (target === 'ru') location.replace('../ru/resume/');
+        // Keep the query string and hash during the auto-redirect, so deep
+        // links such as /resume/#experience survive the language switch.
+        var suffix = String(location.search || '') + String(location.hash || '');
+        if (target === 'ru') location.replace('../ru/resume/' + suffix);
       } catch (e) {
         /* localStorage / navigator unavailable — keep the current page */
       }

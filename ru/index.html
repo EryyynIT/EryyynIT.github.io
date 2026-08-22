@@ -43,6 +43,17 @@
         } catch (e) { /* navigator unavailable — assume a real browser */ }
         if (isBot) return;
 
+        // Keep Back/Forward navigations intact: after a manual language
+        // switch the previous language page must stay visible instead of
+        // bouncing straight back to the current choice.
+        try {
+          if (typeof performance !== 'undefined' && performance.getEntriesByType &&
+              performance.getEntriesByType('navigation').length &&
+              performance.getEntriesByType('navigation')[0].type === 'back_forward') {
+            return;
+          }
+        } catch (e) { /* performance unavailable — redirect normally */ }
+
         var saved = localStorage.getItem('lang');
         var page = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
         var preferred = String(
@@ -61,8 +72,11 @@
           // No explicit choice yet: a non-Russian-preferring browser gets the EN page.
           target = 'en';
         }
-        if (target === 'ru' && page === 'en') location.replace('ru/');
-        else if (target === 'en' && page === 'ru') location.replace('../');
+        // Keep the query string and hash during the auto-redirect, so deep
+        // links such as /#game survive the language switch.
+        var suffix = String(location.search || '') + String(location.hash || '');
+        if (target === 'ru' && page === 'en') location.replace('ru/' + suffix);
+        else if (target === 'en' && page === 'ru') location.replace('../' + suffix);
       } catch (e) {
         /* localStorage / navigator unavailable — keep the current page */
       }

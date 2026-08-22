@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node scripts/generate-site.js",
     "pretest": "node scripts/generate-site.js",
-    "test": "node test/smoke.test.js && node test/lang-redirect.test.js && node test/resume.test.js"
+    "test": "node test/smoke.test.js && node test/lang-redirect.test.js && node test/resume.test.js && node test/nav-state.test.js"
   },
   "engines": {
     "node": ">=14"

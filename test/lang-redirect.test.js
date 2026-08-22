@@ -48,7 +48,11 @@ function run(script, pageLang, opts) {
       userAgent: opts.userAgent,
       webdriver: opts.webdriver
     },
-    location: { replace: (u) => calls.push(String(u)) },
+    location: {
+      replace: (u) => calls.push(String(u)),
+      search: opts.search || '',
+      hash: opts.hash || ''
+    },
     localStorage: {
       getItem: (k) => {
         if (opts.brokenStorage) throw new Error('SecurityError');
@@ -95,6 +99,16 @@ check('ru page, fr-preferred browser -> redirect to ../', ruScript, 'ru',
   { language: 'fr-FR' }, ['../']);
 check('ru page, unknown browser language -> redirect to ../ (falls back to en)',
   ruScript, 'ru', { languages: [], language: undefined }, ['../']);
+
+/* --- Hash / query preservation on the initial auto-redirect --- */
+check('en page, ru-preferred, #game -> redirect to ru/#game',
+  enScript, 'en', { language: 'ru', hash: '#game' }, ['ru/#game']);
+check('en page, ru-preferred, ?source=x#game -> redirect to ru/?source=x#game',
+  enScript, 'en', { language: 'ru', search: '?source=x', hash: '#game' }, ['ru/?source=x#game']);
+check('ru page, en-preferred, #support -> redirect to ../#support',
+  ruScript, 'ru', { language: 'en', hash: '#support' }, ['../#support']);
+check('ru page, en-preferred, ?source=x#support -> redirect to ../?source=x#support',
+  ruScript, 'ru', { language: 'en', search: '?source=x', hash: '#support' }, ['../?source=x#support']);
 
 /* --- Explicit choice stored by the switcher always wins --- */
 check('en page, saved=en, ru-preferred browser -> stay', enScript, 'en',

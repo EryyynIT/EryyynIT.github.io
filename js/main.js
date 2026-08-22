@@ -52,17 +52,204 @@
     setTheme(root.getAttribute('data-theme') || 'dark');
   }
 
-  /* ---------- Language switcher: remember explicit choice ----------
-     Auto-redirect (head bootstrap) only applies before a first explicit
-     choice; once the user picks a language manually, it is stored in
-     localStorage and takes precedence over auto-detection. */
+  /* =====================================================================
+     Route-aware language switching
+     ---------------------------------------------------------------------
+     The site is two language-aware routes:
+
+         HOME      /          <->  /ru/
+         RESUME    /resume/   <->  /ru/resume/
+
+     Switching language never changes the page context: home stays home,
+     resume stays resume. The query string is preserved and the viewport
+     position is carried over as { sectionId, offsetWithinSection } in
+     sessionStorage — not as a raw scrollY, because EN and RU versions of
+     the same content have different heights. An explicit URL hash on a
+     fresh entry always wins over any saved viewport state.
+     ===================================================================== */
+
+  var ROUTES = {
+    home: { en: '/', ru: '/ru/' },
+    resume: { en: '/resume/', ru: '/ru/resume/' }
+  };
+
+  var HOME_SECTIONS = ['home', 'about', 'build', 'projects', 'game', 'team', 'findme', 'support'];
+  var RESUME_SECTIONS = ['summary', 'experience', 'skills', 'contact'];
+  var VIEWPORT_STATE_KEY = 'viewport-state';
+
+  function getPageType() {
+    // /resume/ and /ru/resume/ are the resume route; everything else is home.
+    return /\/resume\/?$/.test(window.location.pathname) ? 'resume' : 'home';
+  }
+
+  function getSections(pageType) {
+    return pageType === 'resume' ? RESUME_SECTIONS : HOME_SECTIONS;
+  }
+
+  function getPreferredLanguage() {
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) { /* private mode */ }
+    if (saved === 'en' || saved === 'ru') return saved;
+    var preferred = String(
+      (navigator.languages && navigator.languages.length && navigator.languages[0]) ||
+      navigator.language || navigator.userLanguage || 'en'
+    ).toLowerCase();
+    return preferred.indexOf('ru') === 0 ? 'ru' : 'en';
+  }
+
+  function detectCurrentSection(pageType) {
+    var ids = getSections(pageType);
+    // Reference point: 40% down the visible viewport — the section the user
+    // is actually reading, not the one whose top just passed the header.
+    var ref = window.scrollY + Math.round(window.innerHeight * 0.4);
+    var current = ids[0];
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var top = el.getBoundingClientRect().top + window.scrollY;
+      if (top <= ref) current = id;
+    });
+    return current;
+  }
+
+  function getCurrentViewportState(pageType) {
+    var sectionId = detectCurrentSection(pageType);
+    var offset = 0;
+    var el = document.getElementById(sectionId);
+    if (el) {
+      // Negative while the section top is still below the viewport top (the
+      // sticky-header anchored position), positive once scrolled into it.
+      offset = Math.round(-el.getBoundingClientRect().top);
+    }
+    return {
+      pageType: pageType,
+      sectionId: sectionId,
+      offsetWithinSection: offset,
+      ts: Date.now()
+    };
+  }
+
+  function shouldSetHash(state) {
+    var ids = getSections(state.pageType);
+    // At the very top of the first section a bare route is cleaner:
+    // / -> /ru/  and  /resume/ -> /ru/resume/  (no #home / #summary noise).
+    return !(state.sectionId === ids[0] && state.offsetWithinSection <= 0);
+  }
+
+  function buildLocalizedUrl(targetLang, state, includeHash) {
+    // When viewport state is carried over, the hash is added afterwards via
+    // history.replaceState (once the scroll is restored), so the native hash
+    // scroll does not fight the restore. includeHash is the fallback for
+    // sessions where viewport state cannot be saved.
+    var hash = includeHash && shouldSetHash(state) ? '#' + state.sectionId : '';
+    return ROUTES[state.pageType][targetLang] + window.location.search + hash;
+  }
+
+  function saveViewportState(state) {
+    try {
+      sessionStorage.setItem(VIEWPORT_STATE_KEY, JSON.stringify(state));
+      return true;
+    } catch (e) { /* private mode */ return false; }
+  }
+
+  function readViewportState() {
+    try {
+      var raw = sessionStorage.getItem(VIEWPORT_STATE_KEY);
+      if (!raw) return null;
+      var state = JSON.parse(raw);
+      if (!state || typeof state.pageType !== 'string' || typeof state.sectionId !== 'string') return null;
+      return state;
+    } catch (e) { return null; }
+  }
+
+  function clearViewportState() {
+    try { sessionStorage.removeItem(VIEWPORT_STATE_KEY); } catch (e) { /* private mode */ }
+  }
+
+  function restoreViewportState() {
+    var state = readViewportState();
+    if (!state) return;
+    // Only states produced by a language switch onto this page type apply.
+    if (state.pageType !== getPageType()) return;
+    // Drop stale states (cancelled navigation, long-lived tabs).
+    if (!state.ts || Date.now() - state.ts > 60000) { clearViewportState(); return; }
+    var ids = getSections(state.pageType);
+    if (ids.indexOf(state.sectionId) === -1) { clearViewportState(); return; }
+    var el = document.getElementById(state.sectionId);
+    if (!el) { clearViewportState(); return; }
+    clearViewportState();
+
+    function apply() {
+      var top = el.getBoundingClientRect().top + window.scrollY;
+      var y = Math.max(0, top + (state.offsetWithinSection || 0));
+      // The page uses CSS scroll-behavior: smooth; force this single scroll
+      // to be instant so the position matches exactly.
+      var html = document.documentElement;
+      var prev = html.style.scrollBehavior;
+      html.style.scrollBehavior = 'auto';
+      window.scrollTo(0, y);
+      html.style.scrollBehavior = prev;
+
+      // Reflect the section in the hash without adding a history entry.
+      // Deferred until after load: the browser runs its own fragment scroll
+      // early during page load, and a hash present at that moment would
+      // override the restored position. After load the hash can be added
+      // safely (replaceState does not scroll on its own).
+      function setHashAndFix() {
+        if (shouldSetHash(state) && window.location.hash !== '#' + state.sectionId) {
+          try { history.replaceState(null, '', '#' + state.sectionId); } catch (e) { /* ignore */ }
+        }
+        // Re-assert the preserved position in case a late fragment scroll
+        // moved the page after the restore.
+        function assert() {
+          var topNow = el.getBoundingClientRect().top + window.scrollY;
+          var target = Math.max(0, topNow + (state.offsetWithinSection || 0));
+          html.style.scrollBehavior = 'auto';
+          window.scrollTo(0, target);
+          html.style.scrollBehavior = prev;
+        }
+        assert();
+        requestAnimationFrame(function () { requestAnimationFrame(assert); });
+      }
+
+      if (document.readyState === 'complete') {
+        setHashAndFix();
+      } else {
+        window.addEventListener('load', setHashAndFix);
+      }
+    }
+
+    function whenReady() {
+      if (document.fonts && document.fonts.ready) {
+        // Restore after fonts have loaded so layout shifts do not leave the
+        // viewport at the wrong offset.
+        document.fonts.ready.then(apply, apply);
+      } else {
+        apply();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', whenReady);
+    } else {
+      whenReady();
+    }
+  }
+
   function initLanguageSwitch() {
     $$('.lang-link').forEach(function (a) {
-      a.addEventListener('click', function () {
-        var target = (a.getAttribute('lang') || '').toLowerCase();
-        if (target === 'en' || target === 'ru') {
-          try { localStorage.setItem('lang', target); } catch (e) { /* private mode */ }
-        }
+      a.addEventListener('click', function (e) {
+        var targetLang = (a.getAttribute('lang') || '').toLowerCase();
+        if (targetLang !== 'en' && targetLang !== 'ru') return;
+        // Let modified clicks (new tab / new window) use the static href.
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        // Persist the explicit choice so the target page bootstrap does not
+        // auto-redirect the visitor back.
+        try { localStorage.setItem('lang', targetLang); } catch (err) { /* private mode */ }
+        var state = getCurrentViewportState(getPageType());
+        var saved = saveViewportState(state);
+        window.location.href = buildLocalizedUrl(targetLang, state, !saved);
       });
     });
   }
@@ -167,5 +354,6 @@
   initReveal();
   initActiveNav();
   initLanguageSwitch();
+  restoreViewportState();
   updateYear();
 })();
