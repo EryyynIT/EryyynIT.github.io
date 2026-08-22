@@ -27,10 +27,22 @@
   <!-- ===== Language bootstrap: match the visitor's browser language when no
          explicit choice was made yet: Russian-preferring visitors get the RU
          page, everyone else the EN page. An explicit EN/RU choice is saved to
-         localStorage by main.js and always wins over auto-detection. ===== -->
+         localStorage by main.js and always wins over auto-detection.
+         Crawlers / robots are never redirected, so / and /ru/ stay directly
+         crawlable as valid pages. ===== -->
   <script>
     (function () {
       try {
+        // Skip auto-redirect for crawlers and webdriver sessions so both
+        // language pages remain directly indexable.
+        var isBot = false;
+        try {
+          var ua = String(navigator.userAgent || '').toLowerCase();
+          isBot = navigator.webdriver === true ||
+            /bot|crawl|spider|slurp|bingpreview|mediapartners|archive\.org|wget|curl|python-requests|headless/i.test(ua);
+        } catch (e) { /* navigator unavailable — assume a real browser */ }
+        if (isBot) return;
+
         var saved = localStorage.getItem('lang');
         var page = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
         var preferred = String(

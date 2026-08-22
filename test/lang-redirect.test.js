@@ -9,7 +9,10 @@
      always wins and redirects to the chosen version regardless of the
      browser language.
    - A broken localStorage must not crash the page or redirect.
+   - Crawlers / robots / webdriver sessions are never redirected, so both
+     / and /ru/ remain directly crawlable as valid pages.
 */
+'use strict';
 const fs = require('fs');
 const vm = require('vm');
 
@@ -41,7 +44,9 @@ function run(script, pageLang, opts) {
     navigator: {
       languages: opts.languages,
       language: opts.language,
-      userLanguage: opts.userLanguage
+      userLanguage: opts.userLanguage,
+      userAgent: opts.userAgent,
+      webdriver: opts.webdriver
     },
     location: { replace: (u) => calls.push(String(u)) },
     localStorage: {
@@ -100,6 +105,35 @@ check('ru page, saved=ru, en-preferred browser -> stay', ruScript, 'ru',
   { saved: 'ru', language: 'en' }, []);
 check('ru page, saved=en, ru-preferred browser -> redirect to ../', ruScript, 'ru',
   { saved: 'en', language: 'ru' }, ['../']);
+
+/* --- Crawlers / robots / webdriver are never redirected --- */
+check('en page, googlebot UA, ru-preferred browser -> stay (no redirect)',
+  enScript, 'en', {
+    userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    language: 'ru-RU'
+  }, []);
+check('ru page, bingbot UA, en-preferred browser -> stay (no redirect)',
+  ruScript, 'ru', {
+    userAgent: 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
+    language: 'en-US'
+  }, []);
+check('ru page, yandexbot UA, en-preferred browser -> stay (no redirect)',
+  ruScript, 'ru', {
+    userAgent: 'Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)',
+    language: 'en-US'
+  }, []);
+check('en page, generic crawler UA -> stay (no redirect)',
+  enScript, 'en', {
+    userAgent: 'SomeCrawler/1.0 (+http://example.com/crawler)',
+    language: 'ru'
+  }, []);
+check('en page, webdriver session, ru-preferred browser -> stay (no redirect)',
+  enScript, 'en', { webdriver: true, language: 'ru-RU' }, []);
+check('ru page, headless-chrome UA, en-preferred browser -> stay (no redirect)',
+  ruScript, 'ru', {
+    userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/120 Safari/537.36',
+    language: 'en-US'
+  }, []);
 
 /* --- Broken storage must not crash or redirect --- */
 check('en page, broken localStorage, ru-preferred browser -> no crash, no redirect',
