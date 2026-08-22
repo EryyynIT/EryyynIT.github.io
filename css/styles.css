@@ -856,6 +856,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .icon-btn { width: 34px; height: 34px; }
 
   .game-gallery { grid-template-columns: 1fr 1fr; }
+  .game-shot img {
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: contain;
+  }
   .team-links .btn { flex: 1; }
 
   .compact-row { align-items: flex-start; }
