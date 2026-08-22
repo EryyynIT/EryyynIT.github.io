@@ -29,6 +29,12 @@ EryyynIT / Backend Developer · Go / Python
 ├── Game (UndeadOverhaul)
 ├── Find me (GitHub · Boosty · X · TikTok · Telegram)
 └── Support
+
+Professional profile (second layer, linked from the home page):
+├── /resume/          ← EN professional profile (from MichaelBarkalov_CV.pdf)
+├── /ru/resume/       ← RU professional profile (from БаркаловМихаил_CV.pdf)
+├── assets/cv/        ← downloadable PDF CVs (source documents, unmodified)
+└── contact: email · Telegram · GitHub
 ```
 
 ## Architecture

@@ -57,7 +57,9 @@ const CONTENT_EN = {
     teamSize: "2 people",
     moreLink: "more",
     viewProject: "View project",
-    commercialNote: "Commercial project — details on request."
+    commercialNote: "Commercial project — details on request.",
+    resumePdfLabel: "Download PDF",
+    resumeResultLabel: "Result:"
   },
 
   /* --- What I build ---------------------------------------------------
@@ -354,6 +356,111 @@ const CONTENT_EN = {
     ]
   },
 
+  /* --- Resume / professional profile --------------------------------------
+     Source of truth: MichaelBarkalov_CV.pdf (English CV). Every fact,
+     date, metric and role below comes from that document — do not edit
+     without updating the PDF source as well.
+     ------------------------------------------------------------------ */
+  resume: {
+    name: "Michael Barkalov",
+    role: "Backend Developer · Go / Python",
+    meta: [
+      { value: "barkalovmisha@gmail.com", url: "mailto:barkalovmisha@gmail.com" },
+      { value: "@eprintln (Telegram)", url: "https://t.me/eprintln" },
+      { value: "github.com/EryyynIT", url: "https://github.com/EryyynIT" },
+      { value: "Remote", url: null },
+      { value: "English C1", url: null }
+    ],
+    summary:
+      "Backend developer with 2+ years of production experience in Go and Python, " +
+      "specializing in payment systems, fintech platforms, and scalable distributed architecture. " +
+      "Delivered production systems end-to-end — from database design to Kubernetes infrastructure — " +
+      "including a solo launch under a one-month hard deadline, and led a backend team as Tech Lead " +
+      "throughout a 2-year fintech engagement.",
+    groups: [
+      {
+        label: "Commercial Experience",
+        highlight: true,
+        entries: [
+          {
+            company: "ADNova",
+            period: "Dec 2025 – Mar 2026",
+            duration: "4 months",
+            role: "Golang Developer",
+            location: "Moscow",
+            points: [
+              "Built and shipped a CPA platform solo to production within one month under a hard deadline.",
+              "Architecture: Chi router (chosen for payment-critical API paths); PostgreSQL + Redis with event sourcing; SeaweedFS; Kubernetes (k3s + Traefik).",
+              "Integrated 4 payment gateway providers; async batch processing with asynq; financial reconciliation logic.",
+              "Set up CI/CD pipeline (GitHub Actions), production deployment, and monitoring from scratch."
+            ],
+            result: "Zero payment loss in production; full financial auditability achieved."
+          },
+          {
+            company: "Fintech Platform (Confidential)",
+            period: "Nov 2023 – Dec 2025",
+            duration: "2 yrs 2 mo",
+            role: "Tech Lead / Python Developer",
+            location: "Remote",
+            points: [
+              "Led a 2-person backend team on a fintech web platform through the full product lifecycle.",
+              "Designed PostgreSQL schema; built customer loyalty system; implemented OAuth 2.0 + TOTP authentication and RBAC with audit trail.",
+              "Responsibilities: code reviews, architectural decisions, sprint planning, cross-team coordination.",
+              "Built unit and integration test suites; managed CI/CD pipeline with Docker Compose."
+            ],
+            result: "System successfully scaled from MVP to production-ready high-load architecture."
+          }
+        ]
+      },
+      {
+        label: "Freelance & Project Experience",
+        entries: [
+          {
+            company: "KickTheDoll",
+            period: "Jul – Oct 2024",
+            duration: "4 months",
+            role: "Python Developer",
+            location: "Freelance",
+            tech: ["FastAPI", "SQLAlchemy", "React", "TypeScript", "Docker"],
+            points: [
+              "Telegram Mini App with internal game economy and TON blockchain crypto payments.",
+              "Concurrent balance system using PostgreSQL advisory locks; 6 game modes, referral system, admin panel."
+            ]
+          },
+          {
+            company: "EscapeIQ",
+            period: "Oct – Nov 2024",
+            duration: "2 months",
+            role: "Python Developer",
+            location: "Freelance",
+            tech: ["Python", "aiogram 3", "Pyrogram", "MySQL", "Docker"],
+            points: [
+              "Telegram broadcast bot with four-tier RBAC role system and FSM-based conversation flows.",
+              "Hybrid architecture: Pyrogram user-mode + aiogram."
+            ]
+          }
+        ]
+      }
+    ],
+    skills: [
+      { category: "Programming", items: ["Go", "Python"] },
+      { category: "Backend", items: ["Chi", "FastAPI", "gRPC", "REST API"] },
+      { category: "Databases", items: ["PostgreSQL", "Redis", "MySQL"] },
+      { category: "Infrastructure", items: ["Kubernetes", "Docker", "GitHub Actions", "CI/CD", "Linux"] },
+      { category: "Security", items: ["OAuth 2.0", "JWT", "TOTP", "RBAC"] },
+      { category: "Patterns", items: ["Event sourcing", "async processing", "financial reconciliation"] },
+      { category: "Languages", items: ["Russian — Native", "English — C1 Advanced"] }
+    ],
+    pdf: { file: "assets/cv/MichaelBarkalov_CV.pdf" },
+    contactHeading: "Interested in working together?",
+    contactSub: "Email and Telegram are the fastest ways to reach me.",
+    contactLinks: [
+      { icon: "mail", label: "Email", value: "barkalovmisha@gmail.com", url: "mailto:barkalovmisha@gmail.com" },
+      { icon: "telegram", label: "Telegram", value: "@eprintln", url: "https://t.me/eprintln" },
+      { icon: "github", label: "GitHub", value: "github.com/EryyynIT", url: "https://github.com/EryyynIT" }
+    ]
+  },
+
   /* --- Convenience shortcuts -------------------------------------------- */
   boosty: SITE_BASE.boosty,
   github: SITE_BASE.github,
@@ -388,7 +495,9 @@ const CONTENT_RU = {
     teamSize: "2 человека",
     moreLink: "подробнее",
     viewProject: "Открыть проект",
-    commercialNote: "Коммерческий проект — детали по запросу."
+    commercialNote: "Коммерческий проект — детали по запросу.",
+    resumePdfLabel: "Скачать PDF",
+    resumeResultLabel: "Результат:"
   },
 
   buildAreas: [
@@ -651,6 +760,110 @@ const CONTENT_RU = {
       { id: "game", label: "UndeadOverhaul", url: "#game" },
       { id: "artist", label: "Художник", url: "https://boosty.to/manevr" },
       { id: "support", label: "Поддержка", url: "#support" }
+    ]
+  },
+
+  /* --- Резюме / профессиональный профиль ----------------------------------
+     Источник: БаркаловМихаил_CV.pdf (русское CV). Все факты, даты,
+     метрики и роли ниже взяты из этого документа — не редактируйте
+     без обновления PDF-источника.
+     ------------------------------------------------------------------ */
+  resume: {
+    name: "Михаил Баркалов",
+    role: "Backend Developer · Go / Python",
+    meta: [
+      { value: "barkalovmisha@gmail.com", url: "mailto:barkalovmisha@gmail.com" },
+      { value: "@eprintln (Telegram)", url: "https://t.me/eprintln" },
+      { value: "github.com/EryyynIT", url: "https://github.com/EryyynIT" },
+      { value: "Remote", url: null },
+      { value: "English C1", url: null }
+    ],
+    summary:
+      "Backend-разработчик с 2+ годами production-опыта. Проектирую и запускаю " +
+      "масштабируемые backend-системы от архитектуры БД до инфраструктуры (Kubernetes, CI/CD), " +
+      "где критичны consistency и reliability: платёжные потоки, финансовая отчётность, " +
+      "распределённая архитектура. Полный ownership: архитектура, код, деплой.",
+    groups: [
+      {
+        label: "Коммерческий опыт",
+        highlight: true,
+        entries: [
+          {
+            company: "ADNova",
+            period: "Декабрь 2025 – Март 2026",
+            duration: "4 месяца",
+            role: "Golang Developer",
+            location: "Москва",
+            points: [
+              "Спроектировал и запустил production CPA-платформу в одиночку за месяц под жёстким дедлайном.",
+              "Chi (payment-critical код); PostgreSQL + Redis с event sourcing; SeaweedFS; Kubernetes (k3s + Traefik).",
+              "Интеграции с 4 платёжными провайдерами (Газпромбанк, Findo, Unicom, Т-Банк); async batch на asynq; финансовый reconciliation.",
+              "CI/CD (GitHub Actions), production deployment и мониторинг с нуля."
+            ],
+            result: "Платформа обрабатывает платежи без потерь, с полной финансовой аудируемостью."
+          },
+          {
+            company: "Финтех-платформа (NDA)",
+            period: "Ноябрь 2023 – Декабрь 2025",
+            duration: "2 г. 2 мес.",
+            role: "Tech Lead / Python Developer",
+            location: "Remote",
+            points: [
+              "Руководил backend-командой из 2 разработчиков через полный цикл продукта.",
+              "PostgreSQL-схема; система лояльности; OAuth 2.0 + TOTP; RBAC с audit trail.",
+              "Код-ревью, архитектурные решения, спринт-планирование, координация между командами.",
+              "Unit- и integration-тесты; CI/CD пайплайн с Docker Compose."
+            ],
+            result: "Система успешно масштабирована от MVP до production-ready high-load архитектуры."
+          }
+        ]
+      },
+      {
+        label: "Фриланс и проекты",
+        entries: [
+          {
+            company: "KickTheDoll",
+            period: "Июль – Октябрь 2024",
+            duration: "4 месяца",
+            role: "Python Developer",
+            location: "Фриланс",
+            tech: ["FastAPI", "SQLAlchemy", "React", "TypeScript", "Docker"],
+            points: [
+              "Telegram Mini App с внутренней игровой экономикой и крипто-платежами через TON Connect.",
+              "Баланс с конкурентным доступом на PostgreSQL advisory locks; 6 режимов, реферальная система, админ-панель."
+            ]
+          },
+          {
+            company: "EscapeIQ",
+            period: "Октябрь – Ноябрь 2024",
+            duration: "2 месяца",
+            role: "Python Developer",
+            location: "Фриланс",
+            tech: ["Python", "aiogram 3", "Pyrogram", "MySQL", "Docker"],
+            points: [
+              "Telegram-бот для автоматизированных рассылок с четырёхуровневой системой ролей и FSM-конверсациями.",
+              "Гибридная архитектура: Pyrogram user-mode + aiogram."
+            ]
+          }
+        ]
+      }
+    ],
+    skills: [
+      { category: "Языки", items: ["Go", "Python"] },
+      { category: "Backend", items: ["Chi", "FastAPI", "gRPC", "REST API"] },
+      { category: "БД", items: ["PostgreSQL", "Redis", "MySQL"] },
+      { category: "Security", items: ["OAuth 2.0", "JWT", "TOTP", "RBAC"] },
+      { category: "Инфраструктура", items: ["Kubernetes", "Docker", "GitHub Actions", "CI/CD", "Linux"] },
+      { category: "Паттерны", items: ["Event sourcing", "async processing", "financial reconciliation"] },
+      { category: "Языки общения", items: ["Русский — родной", "Английский — C1 (Advanced)"] }
+    ],
+    pdf: { file: "assets/cv/MikhailBarkalov_CV_RU.pdf" },
+    contactHeading: "Интересно поработать вместе?",
+    contactSub: "Быстрее всего до меня можно добраться по почте или в Telegram.",
+    contactLinks: [
+      { icon: "mail", label: "Email", value: "barkalovmisha@gmail.com", url: "mailto:barkalovmisha@gmail.com" },
+      { icon: "telegram", label: "Telegram", value: "@eprintln", url: "https://t.me/eprintln" },
+      { icon: "github", label: "GitHub", value: "github.com/EryyynIT", url: "https://github.com/EryyynIT" }
     ]
   },
 

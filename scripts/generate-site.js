@@ -12,8 +12,10 @@
               ▼
        scripts/generate-site.js
               │
-              ├── index.html      (EN)
-              └── ru/index.html   (RU)
+              ├── index.html        (EN home)
+              ├── ru/index.html     (RU home)
+              ├── resume/index.html (EN professional profile)
+              └── ru/resume/index.html (RU professional profile)
 
    Usage:  node scripts/generate-site.js   (or: npm run build)
 
@@ -74,7 +76,9 @@ const ICONS = {
   'telegram-personal': '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 11 13"/><path d="M21.5 2.5 15 21.5l-4-8.5-8.5-4 19-6.5z"/></svg>',
   github: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',
   boosty: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
-  external: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>'
+  external: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>',
+  download: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6.5l9 6 9-6"/></svg>'
 };
 
 function icon(id) {
@@ -331,6 +335,128 @@ function renderFooterLinks(c, ctx) {
   }).join('\n');
 }
 
+/* =====================================================================
+   Resume / professional profile renderers (EN + RU)
+   ===================================================================== */
+
+function renderResumeMeta(r, ctx) {
+  return (r.meta || []).map(function (m) {
+    if (m.url) {
+      var external = isExternal(m.url);
+      return '<li><a href="' + esc(m.url) + '"' +
+        (external ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
+        esc(m.value) + '</a></li>';
+    }
+    return '<li><span>' + esc(m.value) + '</span></li>';
+  }).join('\n');
+}
+
+function renderResumePdfCta(r, ctx) {
+  var pdf = r.pdf || {};
+  if (!pdf.file) return '';
+  var href = ctx.asset(pdf.file);
+  var name = String(pdf.file).split('/').pop();
+  return '<a class="btn btn-primary" href="' + esc(href) + '" download>' +
+    icon('download') +
+    '<span>' + esc(ctx.labels.resumePdfLabel || 'Download PDF') + '</span>' +
+    '</a>' +
+    '<p class="resume-pdf-note">PDF · ' + esc(name) + '</p>';
+}
+
+function renderResumeEntry(e, ctx) {
+  var tech = (e.tech || []).map(chip).join('');
+  var head = '<div class="resume-entry-head">' +
+    '<div>' +
+      '<h4 class="resume-entry-company">' + esc(e.company) + '</h4>' +
+      (e.role
+        ? '<p class="resume-entry-role">' + esc(e.role) +
+          (e.location ? ' · ' + esc(e.location) : '') + '</p>'
+        : '') +
+    '</div>' +
+    (e.period
+      ? '<p class="resume-entry-date">' + esc(e.period) +
+        (e.duration ? ' · ' + esc(e.duration) : '') + '</p>'
+      : '') +
+  '</div>';
+  var points = (e.points || []).map(function (pt) {
+    return '<li>' + esc(pt) + '</li>';
+  }).join('\n');
+  return [
+    '<article class="resume-entry">',
+    '  ' + head,
+    points ? '  <ul class="resume-entry-points">' + points + '</ul>' : null,
+    tech ? '  <div class="resume-entry-tech">' + tech + '</div>' : null,
+    e.result
+      ? '  <p class="resume-entry-result"><strong>' + esc(ctx.labels.resumeResultLabel || 'Result:') + '</strong> ' +
+        esc(e.result) + '</p>'
+      : null,
+    '</article>'
+  ].filter(Boolean).join('\n');
+}
+
+function renderResumeExperience(r, ctx) {
+  return (r.groups || []).map(function (g) {
+    var entries = (g.entries || []).map(function (e) {
+      return renderResumeEntry(e, ctx);
+    }).join('\n');
+    var cls = 'resume-group' + (g.highlight ? ' resume-group--highlight' : '');
+    return [
+      '<div class="' + cls + '">',
+      '  <h3 class="resume-group-title">' + esc(g.label) + '</h3>',
+      '  <div class="resume-entries">',
+      entries,
+      '  </div>',
+      '</div>'
+    ].join('\n');
+  }).join('\n');
+}
+
+function renderResumeSkills(r, ctx) {
+  return (r.skills || []).map(function (s) {
+    var items = (s.items || []).map(chip).join('');
+    return [
+      '<div class="resume-skill">',
+      '  <h4 class="resume-skill-cat">' + esc(s.category) + '</h4>',
+      '  <div class="resume-skill-items">' + items + '</div>',
+      '</div>'
+    ].join('\n');
+  }).join('\n');
+}
+
+function renderResumeContact(r, ctx) {
+  return (r.contactLinks || []).map(function (l) {
+    return [
+      '<a class="resume-contact-row" href="' + esc(l.url) + '"' +
+        (isExternal(l.url) ? ' target="_blank" rel="noopener noreferrer"' : '') + '>',
+      '  <span class="resume-contact-icon">' + icon(l.icon) + '</span>',
+      '  <span class="resume-contact-text">',
+      '    <span class="resume-contact-label">' + esc(l.label) + '</span>',
+      '    <span class="resume-contact-value">' + esc(l.value) + '</span>',
+      '  </span>',
+      '  <span class="social-arrow" aria-hidden="true">' + icon('external') + '</span>',
+      '</a>'
+    ].join('\n');
+  }).join('\n');
+}
+
+/* ---------- Resume container map: id -> generated inner HTML ---------- */
+function buildResumeSectionMap(content, ctx) {
+  var r = content.resume || {};
+  return {
+    'resume-name': esc(r.name || ''),
+    'resume-role': esc(r.role || ''),
+    'resume-meta': renderResumeMeta(r, ctx),
+    'resume-pdf-cta': renderResumePdfCta(r, ctx),
+    'resume-summary': esc(r.summary || ''),
+    'resume-experience': renderResumeExperience(r, ctx),
+    'resume-skills': renderResumeSkills(r, ctx),
+    'resume-contact-title': esc(r.contactHeading || ''),
+    'resume-contact-sub': esc(r.contactSub || ''),
+    'resume-contact': renderResumeContact(r, ctx),
+    'year': String(new Date().getFullYear())
+  };
+}
+
 /* ---------- Container map: id -> generated inner HTML ---------- */
 function buildSectionMap(content, ctx) {
   var c = content;
@@ -416,6 +542,26 @@ function fillPage(html, lang, content) {
   return html;
 }
 
+/* ---------- Fill one resume page (document-like, content from data/content.js) ---------- */
+function fillResumePage(html, lang, content, assetPrefix) {
+  var ctx = {
+    labels: content.labels || {},
+    asset: function (src) { return assetPrefix + String(src || ''); }
+  };
+
+  // Build marker (idempotent).
+  if (html.indexOf('Generated by scripts/generate-site.js') === -1) {
+    html = html.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n' + BANNER);
+  }
+
+  var map = buildResumeSectionMap(content, ctx);
+  Object.keys(map).forEach(function (id) {
+    html = replaceContainer(html, id, map[id]);
+  });
+
+  return html;
+}
+
 /* ---------- Build ---------- */
 function generate() {
   var site = loadContent();
@@ -423,7 +569,14 @@ function generate() {
   var ruHtml = fillPage(read('ru/index.html'), 'ru', site.ru);
   write('index.html', enHtml);
   write('ru/index.html', ruHtml);
-  console.log('✓ index.html and ru/index.html regenerated from data/content.js');
+
+  // Resume / professional profile pages (EN + RU).
+  var resumeEnHtml = fillResumePage(read('resume/index.html'), 'en', site.en, '../');
+  var resumeRuHtml = fillResumePage(read('ru/resume/index.html'), 'ru', site.ru, '../../');
+  write('resume/index.html', resumeEnHtml);
+  write('ru/resume/index.html', resumeRuHtml);
+
+  console.log('✓ index.html, ru/index.html, resume/index.html and ru/resume/index.html regenerated from data/content.js');
 }
 
 if (require.main === module) {

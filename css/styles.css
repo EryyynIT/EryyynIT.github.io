@@ -819,6 +819,207 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .js .projects-featured .reveal.in:nth-child(4) { animation-delay: 0.18s; }
 .js .team-grid .reveal.in:nth-child(2) { animation-delay: 0.08s; }
 
+/* ---------- Resume / professional profile ----------
+   A more document-like layer under the personal hub. Inherits the
+   design system (colors, typography, cards, chips, buttons) and only
+   adds layout primitives specific to a structured professional page. */
+.resume-hero {
+  position: relative;
+  padding-block: clamp(3.5rem, 8vw, 5.5rem) clamp(2.75rem, 6vw, 4rem);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.resume-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+  pointer-events: none;
+}
+.resume-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 50% at 50% 0%, var(--hero-glow), transparent 70%);
+  pointer-events: none;
+}
+.resume-hero .container { position: relative; }
+
+.resume-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-2);
+  margin-bottom: var(--space-5);
+}
+.resume-breadcrumb a { color: var(--accent); font-weight: 600; }
+.resume-breadcrumb a:hover { text-decoration: underline; }
+
+.resume-name {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.resume-role {
+  margin-top: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  letter-spacing: 0.03em;
+  color: var(--accent);
+}
+
+.resume-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  row-gap: 0.35rem;
+  margin-top: 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.83rem;
+  color: var(--text-2);
+}
+.resume-meta li { display: inline-flex; align-items: baseline; }
+.resume-meta li + li::before { content: "·"; margin: 0 0.8rem; color: var(--border-strong); }
+.resume-meta a { color: var(--text-2); }
+.resume-meta a:hover { color: var(--accent); text-decoration: underline; }
+
+.resume-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin-top: var(--space-6); }
+.resume-pdf-note {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-2);
+}
+
+/* Narrower, document-like reading column */
+.resume-col { max-width: 780px; }
+.resume-section { padding-block: var(--section-y); scroll-margin-top: calc(var(--header-h) + 1rem); }
+.resume-sec-head { margin-bottom: var(--space-6); max-width: 60ch; }
+.resume-sec-head h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.025em; }
+.resume-summary { color: var(--text); font-size: 1.06rem; line-height: 1.7; }
+
+/* Experience groups + entries */
+.resume-group + .resume-group { margin-top: var(--space-7); }
+.resume-group-title {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.resume-group-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+.resume-entries { display: grid; gap: 1rem; }
+.resume-entry {
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.resume-entry:hover { border-color: var(--border-strong); box-shadow: var(--shadow-md); }
+
+/* Commercial / deepest experience gets a visible accent edge */
+.resume-group--highlight .resume-entry { border-left: 3px solid var(--accent); }
+
+.resume-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.2rem;
+}
+.resume-entry-company { font-size: 1.15rem; font-weight: 700; }
+.resume-entry-role { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); margin-top: 0.2rem; }
+.resume-entry-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-2); white-space: nowrap; }
+
+.resume-entry-points { margin-top: 1rem; display: grid; gap: 0.45rem; }
+.resume-entry-points li {
+  position: relative;
+  padding-left: 1.1rem;
+  color: var(--text-2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.resume-entry-points li::before { content: "–"; position: absolute; left: 0; color: var(--accent); }
+
+.resume-entry-tech { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.9rem; }
+.resume-entry-result {
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--accent);
+  line-height: 1.55;
+}
+.resume-entry-result strong { color: var(--accent); }
+
+/* Skills grid */
+.resume-skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 1rem;
+}
+.resume-skill {
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.resume-skill-cat {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.7rem;
+}
+.resume-skill-items { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+
+/* Contact */
+.resume-section-contact { background: var(--surface-2); border-block: 1px solid var(--border); }
+.resume-contact-sub { margin-top: -0.4rem; margin-bottom: var(--space-5); color: var(--text-2); line-height: 1.6; max-width: 54ch; }
+.resume-contact { display: grid; gap: 0.8rem; }
+.resume-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.25s ease;
+}
+.resume-contact-row:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateX(4px); text-decoration: none; }
+.resume-contact-icon {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.resume-contact-icon svg { display: block; }
+.resume-contact-text { display: grid; gap: 0.1rem; min-width: 0; }
+.resume-contact-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; }
+.resume-contact-value { font-weight: 600; word-break: break-word; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1023px) {
   .game-layout { grid-template-columns: 1fr; }
@@ -870,6 +1071,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   .compact-row { align-items: flex-start; }
   .compact-link { padding-left: 0; }
+
+  /* Resume: dates stack under the company name, bullets keep air */
+  .resume-entry-head { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+  .resume-entry-date { white-space: normal; }
+  .resume-meta li + li::before { content: ""; margin: 0; }
+  .resume-meta { gap: 0.1rem 0.9rem; }
 }
 
 @media (max-width: 480px) {
@@ -879,6 +1086,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .contact-band { flex-direction: column; align-items: stretch; }
   .contact-band .btn { width: 100%; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
+
+  /* Resume: full-width CTA, tighter cards */
+  .resume-actions .btn { width: 100%; }
+  .resume-entry { padding: 1.15rem 1.15rem; }
+  .resume-contact-row { gap: 0.85rem; padding: 0.9rem 1rem; }
+  .resume-name { font-size: clamp(1.9rem, 9vw, 2.5rem); }
 }
 
 /* ---------- Reduced motion ---------- */
