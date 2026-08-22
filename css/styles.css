@@ -500,6 +500,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     align-items: stretch;
   }
   .project-card--flagship .project-media {
+    aspect-ratio: auto;
     border-bottom: 0;
     border-right: 1px solid var(--border);
   }
