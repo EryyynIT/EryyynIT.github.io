@@ -704,6 +704,62 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .team-link svg { display: block; }
 .team-link-ext { opacity: 0.55; }
 
+/* ---------- Two paths (home fork: developer / game) ---------- */
+.section-paths { background: var(--surface-2); border-block: 1px solid var(--border); }
+.paths-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.4rem; }
+.path-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.path-head { display: flex; align-items: flex-start; gap: 1rem; }
+.path-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  flex: none;
+}
+.path-title { font-size: 1.25rem; font-weight: 700; }
+.path-message { margin-top: 0.3rem; color: var(--text-2); font-size: 0.93rem; line-height: 1.55; }
+.path-links { display: grid; gap: 0.35rem; margin-top: auto; }
+.path-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.94rem;
+  color: var(--link);
+  padding: 0.35rem 0;
+  transition: color 0.18s ease;
+}
+.path-link:hover { text-decoration: none; color: var(--accent); }
+.path-link .arrow { transition: transform 0.2s ease; }
+.path-link:hover .arrow { transform: translateX(3px); }
+.path-link svg { opacity: 0.7; }
+
+/* ---------- Game teaser (home: one asset + CTA) ---------- */
+.game-teaser-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2rem; align-items: center; }
+.game-teaser-media {
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.game-teaser-media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.game-teaser-info { display: grid; gap: 1.1rem; }
+
+/* ---------- Social groups (Find me, grouped discovery) ---------- */
+.social-group-head {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-top: 0.8rem;
+  padding: 0 0.2rem;
+}
+.social-group-head:first-child { margin-top: 0; }
+
 /* ---------- UndeadOverhaul page (/game/) ---------- */
 .game-page-hero {
   position: relative;
@@ -1095,6 +1151,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .game-info { position: static; }
   .about-grid { grid-template-columns: 1fr; }
   .game-hero-layout { grid-template-columns: 1fr; }
+  .game-teaser-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 767px) {

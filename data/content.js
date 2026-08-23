@@ -50,6 +50,8 @@ const CONTENT_EN = {
     supportOnBoosty: "Support on Boosty",
     supportComingSoon: "Support on Boosty — coming soon",
     supportBtnTitle: "Boosty link not set yet — add it in data/content.js (boosty)",
+    exploreGame: "Explore UndeadOverhaul",
+    devlogOnTelegram: "Devlog on Telegram",
     factStatus: "Status",
     factTeam: "Team",
     factRelease: "Release",
@@ -93,21 +95,6 @@ const CONTENT_EN = {
      url, urlLabel, image, imageAlt, tier, commercial?
      ------------------------------------------------------------------ */
   projects: [
-    {
-      title: "UndeadOverhaul",
-      type: "GameDev",
-      status: "In development",
-      tier: "flagship",
-      description:
-        "An indie game built by two people — code and engineering by EryyynIT, " +
-        "everything visual by the artist.",
-      technologies: ["Indie Game", "Two-person team"],
-      why: "Building a game in the open — devlogs on Telegram, progress visible as it happens.",
-      url: "#game",
-      urlLabel: "See the project",
-      image: "assets/game/cover.svg",
-      imageAlt: "UndeadOverhaul — cover art"
-    },
     {
       title: "ADNova",
       type: "Commercial · AdTech",
@@ -210,7 +197,7 @@ const CONTENT_EN = {
     lines: [
       {
         text: "UndeadOverhaul — an indie game in active development.",
-        url: "#game",
+        url: "game/",
         label: "see the game"
       },
       {
@@ -224,6 +211,32 @@ const CONTENT_EN = {
         label: "repo"
       }
     ]
+  },
+
+  /* --- Two paths --------------------------------------------------------
+     The fork on the home page: the professional side or the game side.
+     Each card is a compact set of links for one intent.
+     ------------------------------------------------------------------ */
+  paths: {
+    developer: {
+      tag: "~/dev",
+      title: "Developer",
+      message: "For professional work, experience and technical details.",
+      links: [
+        { label: "Resume", url: "resume/" },
+        { label: "GitHub", url: "https://github.com/EryyynIT" },
+        { label: "Work with me", url: "#work" }
+      ]
+    },
+    game: {
+      tag: "~/game",
+      title: "Game",
+      message: "For the game, its development and the people behind it.",
+      links: [
+        { label: "Explore UndeadOverhaul", url: "game/" },
+        { label: "Telegram devlog", url: "https://t.me/undeadoverhaul" }
+      ]
+    }
   },
 
   /* --- UndeadOverhaul ---------------------------------------------------
@@ -291,42 +304,48 @@ const CONTENT_EN = {
       label: "GitHub",
       handle: "@EryyynIT",
       url: "https://github.com/EryyynIT",
-      note: "Code, projects and experiments — everything I build lives here."
-    },
-    {
-      id: "boosty",
-      label: "Boosty",
-      handle: "@EryyynIT",
-      url: "https://boosty.to/eryyynit",
-      note: "Devlogs, technical notes and support for independent development."
+      note: "Code, projects and experiments — everything I build lives here.",
+      group: "Build / Code"
     },
     {
       id: "x",
       label: "X",
       handle: "@EryyynIT",
       url: "https://x.com/EryyynIT",
-      note: "Personal developer account — projects, experiments, updates."
-    },
-    {
-      id: "tiktok",
-      label: "TikTok",
-      handle: "@barbaris.yt",
-      url: "https://www.tiktok.com/@barbaris.yt",
-      note: "Dev content and behind-the-scenes of what I build."
+      note: "Personal developer account — projects, experiments, updates.",
+      group: "Build / Code"
     },
     {
       id: "telegram",
       label: "Telegram (Channel)",
       handle: "t.me/undeadoverhaul",
       url: "https://t.me/undeadoverhaul",
-      note: "Official UndeadOverhaul development channel — devlogs and game updates (not a personal profile)."
+      note: "Official UndeadOverhaul development channel — devlogs and game updates (not a personal profile).",
+      group: "Game"
+    },
+    {
+      id: "tiktok",
+      label: "TikTok",
+      handle: "@barbaris.yt",
+      url: "https://www.tiktok.com/@barbaris.yt",
+      note: "Dev content and behind-the-scenes of what I build.",
+      group: "Personal / Content"
     },
     {
       id: "telegram-personal",
       label: "Telegram (Personal)",
       handle: "t.me/eprintln",
       url: "https://t.me/eprintln",
-      note: "Direct line to me — best for quick questions and casual chat."
+      note: "Direct line to me — best for quick questions and casual chat.",
+      group: "Personal / Content"
+    },
+    {
+      id: "boosty",
+      label: "Boosty",
+      handle: "@EryyynIT",
+      url: "https://boosty.to/eryyynit",
+      note: "Devlogs, technical notes and support for independent development.",
+      group: "Support"
     }
   ],
 
@@ -357,7 +376,8 @@ const CONTENT_EN = {
       { id: "x", label: "X", url: "https://x.com/EryyynIT" },
       { id: "github", label: "GitHub", url: "https://github.com/EryyynIT" },
       { id: "boosty", label: "Boosty", url: "https://boosty.to/eryyynit" },
-      { id: "game", label: "UndeadOverhaul", url: "#game" },
+      { id: "resume", label: "Resume", url: "resume/" },
+      { id: "game", label: "UndeadOverhaul", url: "game/" },
       { id: "artist", label: "Artist", url: "https://boosty.to/manevr" },
       { id: "support", label: "Support", url: "#support" }
     ]
@@ -495,6 +515,8 @@ const CONTENT_RU = {
     supportOnBoosty: "Поддержать на Boosty",
     supportComingSoon: "Поддержать на Boosty — скоро",
     supportBtnTitle: "Ссылка на Boosty ещё не настроена — добавьте её в data/content.js (boosty)",
+    exploreGame: "Открыть UndeadOverhaul",
+    devlogOnTelegram: "Девлог в Telegram",
     factStatus: "Статус",
     factTeam: "Команда",
     factRelease: "Релиз",
@@ -526,21 +548,6 @@ const CONTENT_RU = {
   ],
 
   projects: [
-    {
-      title: "UndeadOverhaul",
-      type: "GameDev",
-      status: "В разработке",
-      tier: "flagship",
-      description:
-        "Инди-игра, которую делают вдвоём, — код и инженерия от EryyynIT, " +
-        "весь визуал — от художника.",
-      technologies: ["Indie Game", "Команда из двух человек"],
-      why: "Игра строится открыто — девлоги в Telegram, прогресс виден в реальном времени.",
-      url: "#game",
-      urlLabel: "Смотреть проект",
-      image: "assets/game/cover.svg",
-      imageAlt: "UndeadOverhaul — обложка"
-    },
     {
       title: "ADNova",
       type: "Коммерческий · AdTech",
@@ -639,7 +646,7 @@ const CONTENT_RU = {
     lines: [
       {
         text: "UndeadOverhaul — инди-игра в активной разработке.",
-        url: "#game",
+        url: "game/",
         label: "смотреть игру"
       },
       {
@@ -653,6 +660,28 @@ const CONTENT_RU = {
         label: "репозиторий"
       }
     ]
+  },
+
+  paths: {
+    developer: {
+      tag: "~/dev",
+      title: "Разработка",
+      message: "Профессиональная работа, опыт и технические детали.",
+      links: [
+        { label: "Резюме", url: "resume/" },
+        { label: "GitHub", url: "https://github.com/EryyynIT" },
+        { label: "Связаться", url: "#work" }
+      ]
+    },
+    game: {
+      tag: "~/game",
+      title: "Игра",
+      message: "Игра, её разработка и люди, которые за ней стоят.",
+      links: [
+        { label: "Открыть UndeadOverhaul", url: "game/" },
+        { label: "Девлог в Telegram", url: "https://t.me/undeadoverhaul" }
+      ]
+    }
   },
 
   game: {
@@ -710,42 +739,48 @@ const CONTENT_RU = {
       label: "GitHub",
       handle: "@EryyynIT",
       url: "https://github.com/EryyynIT",
-      note: "Код, проекты и эксперименты — здесь живёт всё, что я создаю."
-    },
-    {
-      id: "boosty",
-      label: "Boosty",
-      handle: "@EryyynIT",
-      url: "https://boosty.to/eryyynit",
-      note: "Девлоги, технические заметки и поддержка независимой разработки."
+      note: "Код, проекты и эксперименты — здесь живёт всё, что я создаю.",
+      group: "Код / Разработка"
     },
     {
       id: "x",
       label: "X",
       handle: "@EryyynIT",
       url: "https://x.com/EryyynIT",
-      note: "Личный аккаунт разработчика — проекты, эксперименты, обновления."
-    },
-    {
-      id: "tiktok",
-      label: "TikTok",
-      handle: "@barbaris.yt",
-      url: "https://www.tiktok.com/@barbaris.yt",
-      note: "Контент о разработке и закулисье того, что я создаю."
+      note: "Личный аккаунт разработчика — проекты, эксперименты, обновления.",
+      group: "Код / Разработка"
     },
     {
       id: "telegram",
       label: "Telegram (Канал)",
       handle: "t.me/undeadoverhaul",
       url: "https://t.me/undeadoverhaul",
-      note: "Официальный канал разработки UndeadOverhaul — девлоги и новости игры (не личный профиль)."
+      note: "Официальный канал разработки UndeadOverhaul — девлоги и новости игры (не личный профиль).",
+      group: "Игра"
+    },
+    {
+      id: "tiktok",
+      label: "TikTok",
+      handle: "@barbaris.yt",
+      url: "https://www.tiktok.com/@barbaris.yt",
+      note: "Контент о разработке и закулисье того, что я создаю.",
+      group: "Личное / Контент"
     },
     {
       id: "telegram-personal",
       label: "Telegram (Личный)",
       handle: "t.me/eprintln",
       url: "https://t.me/eprintln",
-      note: "Прямая связь со мной — лучше всего для быстрых вопросов и неформального общения."
+      note: "Прямая связь со мной — лучше всего для быстрых вопросов и неформального общения.",
+      group: "Личное / Контент"
+    },
+    {
+      id: "boosty",
+      label: "Boosty",
+      handle: "@EryyynIT",
+      url: "https://boosty.to/eryyynit",
+      note: "Девлоги, технические заметки и поддержка независимой разработки.",
+      group: "Поддержка"
     }
   ],
 
@@ -771,7 +806,8 @@ const CONTENT_RU = {
       { id: "x", label: "X", url: "https://x.com/EryyynIT" },
       { id: "github", label: "GitHub", url: "https://github.com/EryyynIT" },
       { id: "boosty", label: "Boosty", url: "https://boosty.to/eryyynit" },
-      { id: "game", label: "UndeadOverhaul", url: "#game" },
+      { id: "resume", label: "Резюме", url: "resume/" },
+      { id: "game", label: "UndeadOverhaul", url: "game/" },
       { id: "artist", label: "Художник", url: "https://boosty.to/manevr" },
       { id: "support", label: "Поддержка", url: "#support" }
     ]

@@ -80,7 +80,8 @@ const ICONS = {
   boosty: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
   external: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>',
   download: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>',
-  mail: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6.5l9 6 9-6"/></svg>'
+  mail: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6.5l9 6 9-6"/></svg>',
+  resume: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>'
 };
 
 function icon(id) {
@@ -277,6 +278,58 @@ function renderTeam(c, ctx) {
   }).join('\n');
 }
 
+/* ---------- Two paths (home fork: developer / game) ---------- */
+function renderPathCard(p, ctx) {
+  var links = (p.links || []).map(function (l) {
+    var external = isExternal(l.url);
+    var rel = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+    var arrow = external ? icon('external') : '<span class="arrow" aria-hidden="true">→</span>';
+    return '<li><a class="path-link" href="' + esc(ctx.link(l.url)) + '"' + rel + '>' +
+      '<span>' + esc(l.label) + '</span>' + arrow + '</a></li>';
+  }).join('\n');
+  return [
+    '<article class="card path-card reveal">',
+    '  <div class="path-head">',
+    '    <span class="path-tag" aria-hidden="true">' + esc(p.tag || '') + '</span>',
+    '    <div>',
+    '      <h3 class="path-title">' + esc(p.title || '') + '</h3>',
+    '      <p class="path-message">' + esc(p.message || '') + '</p>',
+    '    </div>',
+    '  </div>',
+    '  <ul class="path-links">' + links + '</ul>',
+    '</article>'
+  ].join('\n');
+}
+
+function renderPaths(c, ctx) {
+  var p = c.paths || {};
+  var dev = p.developer || {};
+  var game = p.game || {};
+  return renderPathCard(dev, ctx) + '\n' + renderPathCard(game, ctx);
+}
+
+/* ---------- UndeadOverhaul teaser (home: 1 asset + CTA) ---------- */
+function renderGameTeaser(c, ctx) {
+  var g = c.game || {};
+  var url = ctx.link('game/');
+  var devlog = (g.devlog && g.devlog.url) || 'https://t.me/undeadoverhaul';
+  return [
+    '<div class="game-teaser-layout">',
+    '  <a class="game-teaser-media" href="' + esc(url) + '" tabindex="-1" aria-hidden="true">',
+    '    <img src="' + esc(ctx.asset(g.cover || 'assets/game/cover.svg')) + '" alt="' + esc((g.title || '') + ' — cover art') + '" width="800" height="450">',
+    '  </a>',
+    '  <div class="game-teaser-info">',
+    '    <p class="game-status"><span class="status-dot" aria-hidden="true"></span><span>' + esc(g.status || '') + '</span></p>',
+    '    <p class="game-desc">' + esc(g.description || '') + '</p>',
+    '    <div class="game-cta">',
+    '      <a class="btn btn-primary" href="' + esc(url) + '">' + esc(ctx.labels.exploreGame || 'Explore UndeadOverhaul') + '<span class="arrow" aria-hidden="true">→</span></a>',
+    '      <a class="btn btn-ghost" href="' + esc(devlog) + '" target="_blank" rel="noopener noreferrer">' + esc(ctx.labels.devlogOnTelegram || 'Devlog on Telegram') + icon('external') + '</a>',
+    '    </div>',
+    '  </div>',
+    '</div>'
+  ].join('\n');
+}
+
 /* ---------- UndeadOverhaul page (dedicated route /game/) ---------- */
 function renderGameCover(g, ctx) {
   return '<img class="game-hero-cover" src="' + esc(ctx.asset(g.cover || 'assets/game/cover.svg')) +
@@ -324,8 +377,23 @@ function renderSocialRows(rows, ctx) {
   }).join('\n');
 }
 
+/* Find me — one compact discovery area grouped by intent
+   (Build / Code, Game, Personal / Content, Support). */
 function renderSocials(c, ctx) {
-  return renderSocialRows(c.socials || [], ctx);
+  var socials = c.socials || [];
+  var order = [];
+  var byGroup = {};
+  socials.forEach(function (s) {
+    var g = s.group || '';
+    if (byGroup[g]) byGroup[g].push(s);
+    else { byGroup[g] = [s]; order.push(g); }
+  });
+  return order.map(function (g) {
+    var head = g
+      ? '<li class="social-group-head" aria-hidden="true">' + esc(g) + '</li>'
+      : '';
+    return head + renderSocialRows(byGroup[g], ctx);
+  }).join('\n');
 }
 
 function renderSupport(c, ctx) {
@@ -495,17 +563,13 @@ function buildResumeSectionMap(content, ctx) {
 /* ---------- Container map: id -> generated inner HTML (home) ---------- */
 function buildSectionMap(content, ctx) {
   var c = content;
-  var game = c.game || {};
   return {
     'build-grid': renderBuildAreas(c, ctx),
     'projects-grid': renderProjects(c, ctx),
     'projects-note': renderProjectsNote(c, ctx),
+    'paths-grid': renderPaths(c, ctx),
     'building-lines': renderBuilding(c, ctx),
-    'game-status-text': game.status ? esc(game.status) : '',
-    'game-desc': game.description ? esc(game.description) : '',
-    'game-facts': renderGameFacts(c, ctx),
-    'game-gallery': renderGameGallery(c, ctx),
-    'team-grid': renderTeam(c, ctx),
+    'game-teaser': renderGameTeaser(c, ctx),
     'social-list': renderSocials(c, ctx),
     'support-grid': renderSupport(c, ctx),
     'support-intro': c.support && c.support.intro ? esc(c.support.intro) : '',
@@ -577,7 +641,13 @@ function replaceContainer(html, id, inner) {
 function fillPage(html, lang, content) {
   var ctx = {
     labels: content.labels || {},
-    asset: function (src) { return lang === 'ru' ? '../' + String(src || '') : String(src || ''); }
+    asset: function (src) { return lang === 'ru' ? '../' + String(src || '') : String(src || ''); },
+    link: function (url) {
+      var u = String(url || '');
+      if (lang !== 'ru') return u;
+      if (u.indexOf('http') === 0 || u.indexOf('#') === 0 || u.indexOf('mailto:') === 0) return u;
+      return '../' + u;
+    }
   };
 
   // Build marker (idempotent).

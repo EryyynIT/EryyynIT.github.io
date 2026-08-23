@@ -76,7 +76,7 @@
     game: { en: '/game/', ru: '/ru/game/' }
   };
 
-  var HOME_SECTIONS = ['home', 'about', 'build', 'projects', 'game', 'team', 'findme', 'support'];
+  var HOME_SECTIONS = ['home', 'projects', 'paths', 'game', 'about', 'work', 'build', 'building', 'findme', 'support'];
   var RESUME_SECTIONS = ['summary', 'experience', 'skills', 'contact'];
   var GAME_SECTIONS = ['game', 'overview', 'media', 'team', 'follow', 'support'];
   var VIEWPORT_STATE_KEY = 'viewport-state';
