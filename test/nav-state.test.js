@@ -24,7 +24,9 @@ const routesChecks = {
   'home.en -> /': /home:\s*\{\s*en:\s*'\/'/.test(mainJs),
   'home.ru -> /ru/': /home:\s*\{\s*en:\s*'\/',\s*ru:\s*'\/ru\/'/.test(mainJs),
   'resume.en -> /resume/': /resume:\s*\{\s*en:\s*'\/resume\/'/.test(mainJs),
-  'resume.ru -> /ru/resume/': /resume:\s*\{\s*en:\s*'\/resume\/',\s*ru:\s*'\/ru\/resume\/'/.test(mainJs)
+  'resume.ru -> /ru/resume/': /resume:\s*\{\s*en:\s*'\/resume\/',\s*ru:\s*'\/ru\/resume\/'/.test(mainJs),
+  'game.en -> /game/': /game:\s*\{\s*en:\s*'\/game\/'/.test(mainJs),
+  'game.ru -> /ru/game/': /game:\s*\{\s*en:\s*'\/game\/',\s*ru:\s*'\/ru\/game\/'/.test(mainJs)
 };
 
 /* --- Key behaviors --- */
@@ -36,6 +38,8 @@ const behaviorChecks = {
     /window\.location\.href\s*=\s*buildLocalizedUrl\(targetLang,\s*state,\s*!saved\)/.test(mainJs),
   'no hardcoded /ru/ redirect':
     !/location(?:\.href)?\s*=\s*["']\/ru\//.test(mainJs) && !mainJs.includes('window.location = "/ru/"'),
+  'game route recognized in getPageType': mainJs.includes("if (/\\/game\\/?$/.test(p)) return 'game';"),
+  'game sections defined': /var GAME_SECTIONS\s*=\s*\[/.test(mainJs),
   'restore waits for fonts.ready': mainJs.includes('document.fonts.ready'),
   'hash update uses replaceState (no history entry)': mainJs.includes('history.replaceState(null, \'\', \'#\' + state.sectionId)')
 };

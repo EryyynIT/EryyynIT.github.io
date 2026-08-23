@@ -243,6 +243,13 @@ const CONTENT_EN = {
     release: null,      // e.g. "TBA" or a year once announced
     platforms: [],      // e.g. ["PC"]
     storeUrl: null,     // TODO: Steam / itch.io link once available
+    cover: "assets/game/cover.svg",
+    devlog: {
+      label: "Devlog on Telegram",
+      handle: "t.me/undeadoverhaul",
+      note: "Official UndeadOverhaul development channel — devlogs and game updates (not a personal profile).",
+      url: "https://t.me/undeadoverhaul"
+    },
     gallery: [
       { src: "assets/game/screenshot-01.svg", alt: "UndeadOverhaul — screenshot 01", label: "Screenshot" },
       { src: "assets/game/screenshot-02.svg", alt: "UndeadOverhaul — screenshot 02", label: "Screenshot" },
@@ -659,6 +666,13 @@ const CONTENT_RU = {
     release: null,
     platforms: [],
     storeUrl: null,
+    cover: "assets/game/cover.svg",
+    devlog: {
+      label: "Девлог в Telegram",
+      handle: "t.me/undeadoverhaul",
+      note: "Официальный канал разработки UndeadOverhaul — девлоги и новости игры (не личный профиль).",
+      url: "https://t.me/undeadoverhaul"
+    },
     gallery: [
       { src: "assets/game/screenshot-01.svg", alt: "UndeadOverhaul — скриншот 01", label: "Скриншот" },
       { src: "assets/game/screenshot-02.svg", alt: "UndeadOverhaul — скриншот 02", label: "Скриншот" },

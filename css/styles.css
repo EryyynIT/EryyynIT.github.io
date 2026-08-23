@@ -704,6 +704,75 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .team-link svg { display: block; }
 .team-link-ext { opacity: 0.55; }
 
+/* ---------- UndeadOverhaul page (/game/) ---------- */
+.game-page-hero {
+  position: relative;
+  padding-block: clamp(3rem, 7vw, 5rem) clamp(2.5rem, 5vw, 3.5rem);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.game-page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+  pointer-events: none;
+}
+.game-page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 50% at 50% 0%, var(--hero-glow), transparent 70%);
+  pointer-events: none;
+}
+.game-page-hero .container { position: relative; }
+.game-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-2);
+  margin-bottom: var(--space-5);
+}
+.game-breadcrumb a { color: var(--accent); font-weight: 600; }
+.game-breadcrumb a:hover { text-decoration: underline; }
+.game-page-title {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.game-page-tagline {
+  margin-top: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  letter-spacing: 0.03em;
+  color: var(--accent);
+}
+.game-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 2.5rem;
+  align-items: center;
+  margin-top: var(--space-6);
+}
+.game-hero-copy { display: grid; gap: 1.2rem; }
+.game-hero-cover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+.game-section { padding-block: var(--section-y); scroll-margin-top: calc(var(--header-h) + 1rem); }
+.game-col { max-width: 820px; }
+.game-support .support-card { border: 1px solid var(--border-strong); }
+
 /* ---------- About ---------- */
 .about-grid {
   display: grid;
@@ -1025,6 +1094,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .game-layout { grid-template-columns: 1fr; }
   .game-info { position: static; }
   .about-grid { grid-template-columns: 1fr; }
+  .game-hero-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 767px) {

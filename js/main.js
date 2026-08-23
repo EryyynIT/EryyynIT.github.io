@@ -55,35 +55,45 @@
   /* =====================================================================
      Route-aware language switching
      ---------------------------------------------------------------------
-     The site is two language-aware routes:
+     The site is three language-aware routes:
 
          HOME      /          <->  /ru/
          RESUME    /resume/   <->  /ru/resume/
+         GAME      /game/     <->  /ru/game/
 
      Switching language never changes the page context: home stays home,
-     resume stays resume. The query string is preserved and the viewport
-     position is carried over as { sectionId, offsetWithinSection } in
-     sessionStorage — not as a raw scrollY, because EN and RU versions of
-     the same content have different heights. An explicit URL hash on a
-     fresh entry always wins over any saved viewport state.
+     resume stays resume, game stays game. The query string is preserved
+     and the viewport position is carried over as
+     { sectionId, offsetWithinSection } in sessionStorage — not as a raw
+     scrollY, because EN and RU versions of the same content have
+     different heights. An explicit URL hash on a fresh entry always wins
+     over any saved viewport state.
      ===================================================================== */
 
   var ROUTES = {
     home: { en: '/', ru: '/ru/' },
-    resume: { en: '/resume/', ru: '/ru/resume/' }
+    resume: { en: '/resume/', ru: '/ru/resume/' },
+    game: { en: '/game/', ru: '/ru/game/' }
   };
 
   var HOME_SECTIONS = ['home', 'about', 'build', 'projects', 'game', 'team', 'findme', 'support'];
   var RESUME_SECTIONS = ['summary', 'experience', 'skills', 'contact'];
+  var GAME_SECTIONS = ['game', 'overview', 'media', 'team', 'follow', 'support'];
   var VIEWPORT_STATE_KEY = 'viewport-state';
 
   function getPageType() {
-    // /resume/ and /ru/resume/ are the resume route; everything else is home.
-    return /\/resume\/?$/.test(window.location.pathname) ? 'resume' : 'home';
+    var p = window.location.pathname;
+    // /resume/ and /ru/resume/ are the resume route; /game/ and /ru/game/
+    // are the UndeadOverhaul route; everything else is home.
+    if (/\/resume\/?$/.test(p)) return 'resume';
+    if (/\/game\/?$/.test(p)) return 'game';
+    return 'home';
   }
 
   function getSections(pageType) {
-    return pageType === 'resume' ? RESUME_SECTIONS : HOME_SECTIONS;
+    if (pageType === 'resume') return RESUME_SECTIONS;
+    if (pageType === 'game') return GAME_SECTIONS;
+    return HOME_SECTIONS;
   }
 
   function getPreferredLanguage() {
