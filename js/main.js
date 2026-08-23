@@ -142,7 +142,8 @@
   function shouldSetHash(state) {
     var ids = getSections(state.pageType);
     // At the very top of the first section a bare route is cleaner:
-    // / -> /ru/  and  /resume/ -> /ru/resume/  (no #home / #summary noise).
+    // / -> /ru/,  /resume/ -> /ru/resume/  and  /game/ -> /ru/game/
+    // (no #home / #summary / #game noise).
     return !(state.sectionId === ids[0] && state.offsetWithinSection <= 0);
   }
 
