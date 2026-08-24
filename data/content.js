@@ -233,8 +233,7 @@ const CONTENT_EN = {
       title: "Game",
       message: "For the game, its development and the people behind it.",
       links: [
-        { label: "Explore UndeadOverhaul", url: "game/" },
-        { label: "Telegram devlog", url: "https://t.me/undeadoverhaul" }
+        { label: "Explore UndeadOverhaul", url: "game/" }
       ]
     }
   },
@@ -248,9 +247,10 @@ const CONTENT_EN = {
     title: "UndeadOverhaul",
     tagline: "An indie game in active development.",
     status: "In development",
+    teaser: "A two-person indie game in active development.",
     description:
       "UndeadOverhaul is a two-person indie game project. EryyynIT handles the code and engineering, " +
-      "the artist handles the visual side. We're building it in the open — progress and devlogs " +
+      "BreadCatto handles the visual side. We're building it in the open — progress and devlogs " +
       "land on the official Telegram channel.",
     // TODO: fill in only confirmed facts — do not invent:
     release: null,      // e.g. "TBA" or a year once announced
@@ -678,8 +678,7 @@ const CONTENT_RU = {
       title: "Игра",
       message: "Игра, её разработка и люди, которые за ней стоят.",
       links: [
-        { label: "Открыть UndeadOverhaul", url: "game/" },
-        { label: "Девлог в Telegram", url: "https://t.me/undeadoverhaul" }
+        { label: "Открыть UndeadOverhaul", url: "game/" }
       ]
     }
   },
@@ -688,9 +687,10 @@ const CONTENT_RU = {
     title: "UndeadOverhaul",
     tagline: "Инди-игра в активной разработке.",
     status: "В разработке",
+    teaser: "Инди-игра команды из двух человек в активной разработке.",
     description:
       "UndeadOverhaul — инди-проект команды из двух человек. EryyynIT отвечает за код и " +
-      "инженерию, художник — за визуальную часть. Мы строим игру открыто: прогресс и девлоги " +
+      "инженерию, BreadCatto — за визуальную часть. Мы строим игру открыто: прогресс и девлоги " +
       "выходят в официальном Telegram-канале.",
     release: null,
     platforms: [],

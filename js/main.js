@@ -55,15 +55,16 @@
   /* =====================================================================
      Route-aware language switching
      ---------------------------------------------------------------------
-     The site is three language-aware routes:
+     The site is four language-aware routes:
 
          HOME      /          <->  /ru/
          RESUME    /resume/   <->  /ru/resume/
+         ABOUT     /about/    <->  /ru/about/
          GAME      /game/     <->  /ru/game/
 
      Switching language never changes the page context: home stays home,
-     resume stays resume, game stays game. The query string is preserved
-     and the viewport position is carried over as
+     resume stays resume, about stays about, game stays game. The query
+     string is preserved and the viewport position is carried over as
      { sectionId, offsetWithinSection } in sessionStorage — not as a raw
      scrollY, because EN and RU versions of the same content have
      different heights. An explicit URL hash on a fresh entry always wins
@@ -73,25 +74,30 @@
   var ROUTES = {
     home: { en: '/', ru: '/ru/' },
     resume: { en: '/resume/', ru: '/ru/resume/' },
+    about: { en: '/about/', ru: '/ru/about/' },
     game: { en: '/game/', ru: '/ru/game/' }
   };
 
-  var HOME_SECTIONS = ['home', 'projects', 'paths', 'game', 'about', 'work', 'build', 'building', 'findme', 'support'];
+  var HOME_SECTIONS = ['home', 'projects', 'paths', 'game', 'about', 'work', 'findme', 'support'];
   var RESUME_SECTIONS = ['summary', 'experience', 'skills', 'contact'];
+  var ABOUT_SECTIONS = ['about', 'story', 'build', 'building', 'work'];
   var GAME_SECTIONS = ['game', 'overview', 'media', 'team', 'follow', 'support'];
   var VIEWPORT_STATE_KEY = 'viewport-state';
 
   function getPageType() {
     var p = window.location.pathname;
-    // /resume/ and /ru/resume/ are the resume route; /game/ and /ru/game/
-    // are the UndeadOverhaul route; everything else is home.
+    // /resume/ and /ru/resume/ are the resume route; /about/ and /ru/about/
+    // are the personal page; /game/ and /ru/game/ are the UndeadOverhaul
+    // route; everything else is home.
     if (/\/resume\/?$/.test(p)) return 'resume';
+    if (/\/about\/?$/.test(p)) return 'about';
     if (/\/game\/?$/.test(p)) return 'game';
     return 'home';
   }
 
   function getSections(pageType) {
     if (pageType === 'resume') return RESUME_SECTIONS;
+    if (pageType === 'about') return ABOUT_SECTIONS;
     if (pageType === 'game') return GAME_SECTIONS;
     return HOME_SECTIONS;
   }

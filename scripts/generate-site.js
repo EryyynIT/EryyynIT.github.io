@@ -308,11 +308,15 @@ function renderPaths(c, ctx) {
   return renderPathCard(dev, ctx) + '\n' + renderPathCard(game, ctx);
 }
 
-/* ---------- UndeadOverhaul teaser (home: 1 asset + CTA) ---------- */
+/* ---------- UndeadOverhaul teaser (home: 1 asset + one CTA) ----------
+   Home only tells visitors the project exists. The full game context —
+   team, media, devlog, support — lives on /game/, so the teaser must
+   stay shallow: title (in the section header), short description, one
+   visual asset and exactly one primary CTA. No devlog / Telegram links,
+   no team listing, no support links here. */
 function renderGameTeaser(c, ctx) {
   var g = c.game || {};
   var url = ctx.link('game/');
-  var devlog = (g.devlog && g.devlog.url) || 'https://t.me/undeadoverhaul';
   return [
     '<div class="game-teaser-layout">',
     '  <a class="game-teaser-media" href="' + esc(url) + '" tabindex="-1" aria-hidden="true">',
@@ -320,10 +324,9 @@ function renderGameTeaser(c, ctx) {
     '  </a>',
     '  <div class="game-teaser-info">',
     '    <p class="game-status"><span class="status-dot" aria-hidden="true"></span><span>' + esc(g.status || '') + '</span></p>',
-    '    <p class="game-desc">' + esc(g.description || '') + '</p>',
+    '    <p class="game-desc">' + esc(g.teaser || g.description || '') + '</p>',
     '    <div class="game-cta">',
     '      <a class="btn btn-primary" href="' + esc(url) + '">' + esc(ctx.labels.exploreGame || 'Explore UndeadOverhaul') + '<span class="arrow" aria-hidden="true">→</span></a>',
-    '      <a class="btn btn-ghost" href="' + esc(devlog) + '" target="_blank" rel="noopener noreferrer">' + esc(ctx.labels.devlogOnTelegram || 'Devlog on Telegram') + icon('external') + '</a>',
     '    </div>',
     '  </div>',
     '</div>'
@@ -560,15 +563,17 @@ function buildResumeSectionMap(content, ctx) {
   };
 }
 
-/* ---------- Container map: id -> generated inner HTML (home) ---------- */
+/* ---------- Container map: id -> generated inner HTML (home) ----------
+   Home is the directional hub: identity, selected work, the two paths,
+   a shallow game teaser, a short about, discovery and support. Build
+   areas and the workbench terminal live on the dedicated /about/ page
+   (see buildAboutSectionMap below). */
 function buildSectionMap(content, ctx) {
   var c = content;
   return {
-    'build-grid': renderBuildAreas(c, ctx),
     'projects-grid': renderProjects(c, ctx),
     'projects-note': renderProjectsNote(c, ctx),
     'paths-grid': renderPaths(c, ctx),
-    'building-lines': renderBuilding(c, ctx),
     'game-teaser': renderGameTeaser(c, ctx),
     'social-list': renderSocials(c, ctx),
     'support-grid': renderSupport(c, ctx),

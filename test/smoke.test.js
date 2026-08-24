@@ -58,7 +58,9 @@ function runChecks(html, lang) {
   add('twitter', html.includes('name="twitter:card"') && html.includes('name="twitter:image"'));
 
   /* --- Navigation / anchors / accessibility --- */
-  ['home', 'projects', 'paths', 'game', 'about', 'work', 'build', 'findme', 'support'].forEach((id) => {
+  // Home is the directional hub — build areas and the workbench terminal
+  // were relocated to /about/, so the anchor list no longer includes them.
+  ['home', 'projects', 'paths', 'game', 'about', 'work', 'findme', 'support'].forEach((id) => {
     add('anchor-' + id, html.includes('id="' + id + '"'));
   });
   // Game-specific content moved off the home page.
@@ -75,13 +77,14 @@ function runChecks(html, lang) {
   add('about-heading', html.includes(isRu ? 'Разработчик за этой страницей' : 'The developer behind this page'));
   add('work-cta', html.includes('https://t.me/eprintln'));
 
-  /* --- What I build --- */
-  const build = innerOf(html, 'build-grid') || '';
-  add('build-cards', (build.match(/<article class="card build-card reveal">/g) || []).length === 3);
-  add('build-titles', isRu
-    ? build.includes('Backend') && build.includes('Инфраструктура') && build.includes('Эксперименты')
-    : build.includes('Backend') && build.includes('Infrastructure') && build.includes('Experiments'));
-  add('build-tech', build.includes('Kubernetes') && build.includes('FastAPI'));
+  /* --- About teaser (short introduction, full story on /about/) --- */
+  add('about-teaser-short',
+    html.includes(isRu ? 'публичный псевдоним. Михаил — человек за ним' : 'public identity. Michael is the person behind it'));
+  add('about-teaser-link', html.includes(isRu ? 'href="../about/"' : 'href="about/"') &&
+    html.includes(isRu ? 'Подробнее обо мне' : 'More about me'));
+  add('about-no-full-story', !html.includes(isRu ? 'читается примерно как «Эрин»' : 'pronounced roughly like'));
+  add('about-no-build-areas', innerOf(html, 'build-grid') === null);
+  add('about-no-workbench', innerOf(html, 'building-lines') === null);
 
   /* --- Two paths (developer / game fork) --- */
   const paths = innerOf(html, 'paths-grid') || '';
@@ -90,8 +93,11 @@ function runChecks(html, lang) {
     ? paths.includes('Разработка') && paths.includes('Резюме') && paths.includes('github.com/EryyynIT')
     : paths.includes('Developer') && paths.includes('Resume') && paths.includes('github.com/EryyynIT'));
   add('paths-game', isRu
-    ? paths.includes('Игра') && paths.includes('Открыть UndeadOverhaul') && paths.includes('t.me/undeadoverhaul')
-    : paths.includes('Game') && paths.includes('Explore UndeadOverhaul') && paths.includes('t.me/undeadoverhaul'));
+    ? paths.includes('Игра') && paths.includes('Открыть UndeadOverhaul')
+    : paths.includes('Game') && paths.includes('Explore UndeadOverhaul'));
+  // The game path card points to /game/ only — no Telegram game CTA on Home
+  // (the devlog lives on the game page and in Find me).
+  add('paths-game-no-devlog-cta', !paths.includes('https://t.me/undeadoverhaul'));
   add('paths-dev-resume-link', paths.includes(isRu ? 'href="../resume/"' : 'href="resume/"'));
   add('paths-game-page-link', paths.includes(isRu ? 'href="../game/"' : 'href="game/"'));
 
@@ -122,19 +128,20 @@ function runChecks(html, lang) {
   const note = innerOf(html, 'projects-note') || '';
   add('projects-note-link', note.includes('https://github.com/EryyynIT') && note.includes(isRu ? 'на GitHub' : 'on GitHub'));
 
-  /* --- Currently building (terminal) --- */
-  const building = innerOf(html, 'building-lines') || '';
-  add('building-lines', (building.match(/role="listitem"/g) || []).length === 3);
-  add('building-game-link', building.includes('game/') && building.includes('UndeadOverhaul'));
-
-  /* --- UndeadOverhaul teaser (home: 1 asset + status + CTA) --- */
+  /* --- UndeadOverhaul teaser (home: short desc + 1 asset + 1 CTA) --- */
   const teaser = innerOf(html, 'game-teaser') || '';
   add('game-teaser-present', teaser.length > 80);
   add('game-teaser-status', teaser.includes(isRu ? 'В разработке' : 'In development'));
   add('game-teaser-cover', teaser.includes('assets/game/cover.svg') && teaser.includes('game-teaser-media'));
+  add('game-teaser-short-desc', teaser.includes(isRu ? 'команды из двух человек' : 'two-person indie game'));
   add('game-teaser-cta', teaser.includes(isRu ? 'Открыть UndeadOverhaul' : 'Explore UndeadOverhaul') &&
     teaser.includes(isRu ? 'href="../game/"' : 'href="game/"'));
-  add('game-teaser-devlog', teaser.includes('https://t.me/undeadoverhaul'));
+  // Exactly one primary CTA and no game-specific support / devlog links on
+  // Home — the full context belongs to /game/.
+  add('game-teaser-single-cta',
+    (teaser.match(/class="btn btn-primary"/g) || []).length === 1 &&
+    !teaser.includes('https://t.me/undeadoverhaul') &&
+    !teaser.includes('boosty.to'));
 
   /* --- Find me (socials, grouped discovery) --- */
   const socials = innerOf(html, 'social-list') || '';
@@ -166,8 +173,9 @@ function runChecks(html, lang) {
     footerLinks.includes('https://x.com/EryyynIT') &&
     footerLinks.includes('https://github.com/EryyynIT') &&
     footerLinks.includes('https://boosty.to/eryyynit') &&
-    // Relative on purpose: `resume/` and `game/` resolve to the language
-    // variant of the current page (/ -> /resume/, /ru/ -> /ru/resume/).
+    // Relative on purpose: `about/`, `resume/` and `game/` resolve to the
+    // language variant of the current page (/ -> /about/, /ru/ -> /ru/about/).
+    footerLinks.includes('href="about/"') &&
     footerLinks.includes('href="resume/"') &&
     footerLinks.includes('href="game/"') &&
     footerLinks.includes('https://boosty.to/manevr') &&
@@ -175,7 +183,6 @@ function runChecks(html, lang) {
 
   /* --- No-JS / content hygiene --- */
   add('no-empty-containers',
-    innerOf(html, 'build-grid') !== null &&
     innerOf(html, 'projects-grid') !== null &&
     innerOf(html, 'paths-grid') !== null &&
     innerOf(html, 'game-teaser') !== null &&
@@ -186,8 +193,9 @@ function runChecks(html, lang) {
   add('no-personal-hub-url', !html.includes('/personal-hub/'));
   add('no-old-comments', !html.includes('rendered from data/content.js'));
 
-  /* --- Article count (semantic cards): 3 build + 2 paths + 6 projects --- */
-  add('article-count', (html.match(/<article/g) || []).length === 11);
+  /* --- Article count (semantic cards): 2 paths + 6 project cards ---
+     Build areas moved to /about/, so Home no longer renders them. */
+  add('article-count', (html.match(/<article/g) || []).length === 8);
 
   /* --- Relative URL integrity: every relative src/href must resolve --- */
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
