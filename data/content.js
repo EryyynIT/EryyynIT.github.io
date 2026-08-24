@@ -92,7 +92,7 @@ const CONTENT_EN = {
      tier "featured"  -> featured grid card
      tier "compact"   -> compact row (default)
      Fields: title, type, status, description, technologies[], why?,
-     url, urlLabel, image, imageAlt, tier, commercial?
+     url, urlLabel, detailsHref?, detailsLabel?, image, imageAlt, tier, commercial?
      ------------------------------------------------------------------ */
   projects: [
     {
@@ -101,6 +101,8 @@ const CONTENT_EN = {
       status: "Commercial",
       tier: "featured",
       commercial: true,
+      detailsHref: "/resume#experience",
+      detailsLabel: "Details available in Resume",
       description:
         "Commercial product in the AdTech / CPA space. My work here is backend and product " +
         "engineering — production development, not a study prototype.",
@@ -571,6 +573,8 @@ const CONTENT_RU = {
       status: "Коммерческий",
       tier: "featured",
       commercial: true,
+      detailsHref: "/ru/resume#experience",
+      detailsLabel: "Детали доступны в резюме",
       description:
         "Коммерческий продукт в сфере AdTech / CPA. Моя работа здесь — backend и product " +
         "engineering: производственная разработка, а не учебный прототип.",

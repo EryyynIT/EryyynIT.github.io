@@ -129,6 +129,10 @@ function renderFeaturedCard(p, ctx) {
   if (hasLink) {
     link = '<a class="project-link" href="' + esc(href) + '"' + rel + '>' +
       esc(p.urlLabel || ctx.labels.viewProject || 'View project') + arrow + '</a>';
+  } else if (p.commercial && p.detailsHref) {
+    link = '<p class="commercial-note"><a class="commercial-note-link" href="' + esc(p.detailsHref) + '">' +
+      esc(p.detailsLabel || ctx.labels.commercialNote || 'Details available in Resume') +
+      '<span class="arrow" aria-hidden="true">→</span></a></p>';
   } else if (p.commercial) {
     link = '<p class="commercial-note">' + esc(ctx.labels.commercialNote || 'Commercial project.') + '</p>';
   }

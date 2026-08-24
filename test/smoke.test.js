@@ -201,8 +201,10 @@ function runChecks(html, lang) {
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
   const relative = refs.filter((u) => !u.startsWith('#') && !u.startsWith('http') && !u.startsWith('data:'));
   const missing = relative
+    // A #fragment points at the same file, not a separate path.
+    .map((u) => u.split('#')[0])
     .map((u) => (isRu && u.startsWith('../') ? u.slice(3) : u))
-    .filter((u) => !fs.existsSync(path.join(ROOT, u)));
+    .filter((u) => u && !fs.existsSync(path.join(ROOT, u)));
   add('relative-assets-resolve', missing.length === 0);
   r.relativeRefs = relative;
   r.missingFiles = missing;
