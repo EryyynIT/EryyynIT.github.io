@@ -1,0 +1,38 @@
+# EryyynIT (Michael Barkalov)
+
+> Backend developer working in Go and Python (FastAPI). Builds production
+> backend systems, experiments with infrastructure and AI, and develops an
+> indie game on the side.
+
+Michael Barkalov (online as EryyynIT) is a backend developer based in
+Voronezh, Russia, with commercial experience in Go and Python/FastAPI.
+He has functioned as tech lead on an NDA web platform project and
+solo-built ADNova, a commercial AdTech/CPA backend. He is currently
+finishing a technical college program in mechatronics and mobile
+robotics (graduating 2026) and is targeting remote backend roles.
+
+## Key pages
+
+- [Resume](https://eryyynit.github.io/resume/): Professional experience,
+  skills, and downloadable CV (EN/RU).
+- [About](https://eryyynit.github.io/about/): Background on Michael /
+  EryyynIT — who he is, what he builds, and why.
+- [Projects](https://eryyynit.github.io/#projects): Selected work,
+  including ADNova (commercial AdTech backend), an event-driven payment
+  microservice (FastAPI/RabbitMQ), and a Go queue broker.
+- [UndeadOverhaul](https://eryyynit.github.io/game/): A two-person indie
+  game in active development (Godot, Rust/gdext).
+
+## Contact
+
+- GitHub: https://github.com/EryyynIT
+- Telegram (direct): https://t.me/eprintln
+- X: https://x.com/EryyynIT
+
+## Notes
+
+- Site is fully static, pre-rendered HTML — no JavaScript required to
+  read any page content.
+- Available in English and Russian (see /ru/ variants of each page).
+- For recruiting or freelance backend work inquiries, Telegram
+  (t.me/eprintln) is the fastest way to reach Michael directly.
