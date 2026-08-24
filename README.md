@@ -18,8 +18,9 @@ only adds interactive behavior (theme, menu, language preference, reveal animati
 /
 ├── /                  ← home: personal hub (who / selected work / two paths / find me / support)
 ├── /resume/           ← professional profile (EN, from the source CV)
+├── /about/            ← personal context (Michael / EryyynIT, full story)
 ├── /game/             ← UndeadOverhaul — the indie game (media, team, devlog, support)
-└── /ru/               ← Russian versions of all routes (/ru/, /ru/resume/, /ru/game/)
+└── /ru/               ← Russian versions of all routes (/ru/, /ru/resume/, /ru/about/, /ru/game/)
 ```
 
 ```
@@ -28,21 +29,27 @@ EryyynIT / Backend Developer · Go / Python
 ├── Hero                 ← who I am (5 seconds)
 ├── Selected work        ← ADNova · Async Payment Processing Service · queue
 │   └── More experiments → MailingTGBot · go-exercises · Tic-Tac-ToeAI
-├── Two paths            ← Developer (Resume / GitHub / Work with me) | Game (page / devlog)
-├── UndeadOverhaul       ← teaser: 1 asset, status, CTA → /game/
-├── About                ← short, human introduction (Who is Michael?)
+├── Two paths            ← Developer (Resume / GitHub / Work with me) | Game (page)
+├── UndeadOverhaul       ← teaser: 1 asset, status, one CTA → /game/
+├── About                ← short introduction (Who is Michael?) → /about/
 ├── Work with me         ← contact CTA (email / Telegram)
-├── Build                ← capabilities (Backend / Infrastructure / Experiments)
-├── Workbench            ← terminal-style "currently building"
 ├── Find me              ← grouped discovery (Code / Game / Personal / Support)
 ├── Support              ← developer + artist (independent Boosty links)
-└── Footer               ← utility layer (X · GitHub · Resume · Game · Artist · Support)
+└── Footer               ← utility layer (X · GitHub · About · Resume · Game · Artist · Support)
+
+/about/ (personal context)
+├── About hero           ← public identity + the person behind it
+├── Story                ← complete personal narrative (Michael / EryyynIT)
+├── What I build         ← capabilities (Backend / Infrastructure / Experiments)
+├── Right now            ← terminal-style "currently building"
+├── Work with me         ← contact CTA (email / Telegram)
+└── Footer               ← back to hub, resume, game
 
 /game/ (UndeadOverhaul)
 ├── Game hero            ← title, tagline, status, cover
 ├── Overview             ← honest project description + facts
 ├── Media                ← screenshots / concept art gallery
-├── Team                 ← the two people behind the game
+├── Team                 ← EryyynIT (Developer / Programmer) + BreadCatto (Artist / Visual Development)
 ├── Follow               ← Telegram devlog + team socials
 ├── Support              ← developer + artist (prominent here)
 └── Footer               ← back to hub, resume, GitHub, Telegram, artist, support
@@ -69,6 +76,8 @@ scripts/generate-site.js
        ├── ru/index.html     ← pre-rendered RU home
        ├── resume/index.html ← EN professional profile
        ├── ru/resume/index.html ← RU professional profile
+       ├── about/index.html  ← EN personal / about page
+       ├── ru/about/index.html ← RU personal / about page
        ├── game/index.html   ← EN UndeadOverhaul page
        └── ru/game/index.html ← RU UndeadOverhaul page
 ```
@@ -79,13 +88,13 @@ social and footer entry is in the raw HTML. No JavaScript is required to see any
 
 ## Languages
 
-- **English (primary)** — `/`, `/resume/`, `/game/`
-- **Russian** — `/ru/`, `/ru/resume/`, `/ru/game/`
+- **English (primary)** — `/`, `/resume/`, `/about/`, `/game/`
+- **Russian** — `/ru/`, `/ru/resume/`, `/ru/about/`, `/ru/game/`
 
 All pages are generated from `data/content.js` (`CONTENT_EN` and `CONTENT_RU`). The
 compact `EN / RU` switcher in the header is **route-aware**: switching language never
-changes the page context (home ↔ home, resume ↔ resume, game ↔ game), preserves the
-query string, and carries the current viewport position over.
+changes the page context (home ↔ home, resume ↔ resume, about ↔ about, game ↔ game),
+preserves the query string, and carries the current viewport position over.
 
 **Automatic language selection** — the site matches the visitor's browser language on the
 first visit: Russian-speaking visitors are sent from `/` to `/ru/`, and non-Russian-speaking
@@ -114,10 +123,12 @@ redirected, so every language route stays directly crawlable.
 /
 ├── index.html              # generated English home (build artifact)
 ├── resume/                 # generated English resume (build artifact)
+├── about/                  # generated English personal page (build artifact)
 ├── game/                   # generated English UndeadOverhaul page (build artifact)
 ├── ru/
 │   ├── index.html          # generated Russian home (build artifact)
 │   ├── resume/             # generated Russian resume (build artifact)
+│   ├── about/              # generated Russian personal page (build artifact)
 │   └── game/               # generated Russian UndeadOverhaul page (build artifact)
 ├── css/
 │   └── styles.css          # design tokens (colors) in :root / [data-theme="dark"]
@@ -157,9 +168,9 @@ npm run build
 ```
 
 This rewrites `index.html`, `ru/index.html`, `resume/index.html`, `ru/resume/index.html`,
-`game/index.html` and `ru/game/index.html` from `data/content.js` (relative asset paths
-are resolved per language automatically). Commit the regenerated HTML together with your
-content change.
+`about/index.html`, `ru/about/index.html`, `game/index.html` and `ru/game/index.html` from
+`data/content.js` (relative asset paths are resolved per language automatically). Commit
+the regenerated HTML together with your content change.
 
 ## Test
 
@@ -175,6 +186,7 @@ Runs `scripts/generate-site.js` first, then:
 - `test/lang-redirect.test.js` — verifies the auto language selection for the home pages:
   explicit choice wins, browser language drives the initial route, crawlers are never redirected.
 - `test/resume.test.js` — the same pre-render + language checks for `/resume/` and `/ru/resume/`.
+- `test/about.test.js` — the same pre-render + language checks for `/about/` and `/ru/about/`.
 - `test/game.test.js` — the same pre-render + language checks for `/game/` and `/ru/game/`.
 - `test/nav-state.test.js` — statically verifies the route-aware language switcher contract
-  (home / resume / game routes, viewport carry-over, no hardcoded redirects).
+  (home / resume / about / game routes, viewport carry-over, no hardcoded redirects).

@@ -25,6 +25,8 @@ const routesChecks = {
   'home.ru -> /ru/': /home:\s*\{\s*en:\s*'\/',\s*ru:\s*'\/ru\/'/.test(mainJs),
   'resume.en -> /resume/': /resume:\s*\{\s*en:\s*'\/resume\/'/.test(mainJs),
   'resume.ru -> /ru/resume/': /resume:\s*\{\s*en:\s*'\/resume\/',\s*ru:\s*'\/ru\/resume\/'/.test(mainJs),
+  'about.en -> /about/': /about:\s*\{\s*en:\s*'\/about\/'/.test(mainJs),
+  'about.ru -> /ru/about/': /about:\s*\{\s*en:\s*'\/about\/',\s*ru:\s*'\/ru\/about\/'/.test(mainJs),
   'game.en -> /game/': /game:\s*\{\s*en:\s*'\/game\/'/.test(mainJs),
   'game.ru -> /ru/game/': /game:\s*\{\s*en:\s*'\/game\/',\s*ru:\s*'\/ru\/game\/'/.test(mainJs)
 };
@@ -40,6 +42,11 @@ const behaviorChecks = {
     !/location(?:\.href)?\s*=\s*["']\/ru\//.test(mainJs) && !mainJs.includes('window.location = "/ru/"'),
   'game route recognized in getPageType': mainJs.includes("if (/\\/game\\/?$/.test(p)) return 'game';"),
   'game sections defined': /var GAME_SECTIONS\s*=\s*\[/.test(mainJs),
+  'about route recognized in getPageType': mainJs.includes("if (/\\/about\\/?$/.test(p)) return 'about';"),
+  'about sections defined': /var ABOUT_SECTIONS\s*=\s*\[/.test(mainJs),
+  'about sections listed in HOME_SECTIONS': /var HOME_SECTIONS\s*=\s*\[[^\]]*\]/.test(mainJs) &&
+    !/var HOME_SECTIONS\s*=\s*\[[^\]]*\b'build'\b/.test(mainJs) &&
+    !/var HOME_SECTIONS\s*=\s*\[[^\]]*\b'building'\b/.test(mainJs),
   'restore waits for fonts.ready': mainJs.includes('document.fonts.ready'),
   'hash update uses replaceState (no history entry)': mainJs.includes('history.replaceState(null, \'\', \'#\' + state.sectionId)')
 };

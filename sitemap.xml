@@ -25,6 +25,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://eryyynit.github.io/about/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eryyynit.github.io/ru/about/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://eryyynit.github.io/game/</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>weekly</changefreq>

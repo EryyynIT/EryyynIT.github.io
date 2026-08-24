@@ -76,6 +76,7 @@ const ICONS = {
   tiktok: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
   telegram: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
   'telegram-personal': '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 11 13"/><path d="M21.5 2.5 15 21.5l-4-8.5-8.5-4 19-6.5z"/></svg>',
+  about: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3.2"/><path d="M5.8 19a7 7 0 0 1 12.4 0"/></svg>',
   github: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',
   boosty: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
   external: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>',
@@ -212,7 +213,7 @@ function renderBuilding(c, ctx) {
   var data = c.building || {};
   return (data.lines || []).map(function (l) {
     var link = l.url
-      ? '<a class="term-link" href="' + esc(l.url) + '"' +
+      ? '<a class="term-link" href="' + esc(ctx.link(l.url)) + '"' +
         (isExternal(l.url) ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
         esc(l.label || ctx.labels.moreLink || 'more') + '</a>'
       : '';
@@ -584,6 +585,31 @@ function buildSectionMap(content, ctx) {
   };
 }
 
+/* ---------- Container map: id -> generated inner HTML (/about/) ----------
+   /about/ is the complete personal context. It receives the full story
+   and the "what I build" / "right now" material that used to sit on the
+   home page, so nothing is lost — it is simply relocated to the page
+   that explains instead of pointing. */
+function buildAboutSectionMap(content, ctx) {
+  var c = content;
+  return {
+    'about-name': esc((c.about && c.about.name) || 'EryyynIT'),
+    'about-role': esc((c.about && c.about.role) || (c.site && c.site.role) || ''),
+    'about-intro': esc((c.about && c.about.intro) || ''),
+    'about-story': renderAboutStory(c, ctx),
+    'about-build-grid': renderBuildAreas(c, ctx),
+    'about-building-lines': renderBuilding(c, ctx),
+    'year': String(new Date().getFullYear())
+  };
+}
+
+function renderAboutStory(c, ctx) {
+  var story = (c.about && c.about.story) || [];
+  return story.map(function (p) {
+    return '<p>' + esc(p) + '</p>';
+  }).join('\n');
+}
+
 /* ---------- Container map: id -> generated inner HTML (game page) ---------- */
 function buildGameSectionMap(content, ctx) {
   var c = content;
@@ -719,6 +745,35 @@ function fillResumePage(html, lang, content, assetPrefix) {
   return html;
 }
 
+/* ---------- Fill one about page (personal context, /about/) ---------- */
+function fillAboutPage(html, lang, content) {
+  // /about/ and /ru/about/ are one level deep, like the resume pages —
+  // assets and internal relative links need one extra "../" compared to
+  // the home pages.
+  var prefix = lang === 'ru' ? '../../' : '../';
+  var ctx = {
+    labels: content.labels || {},
+    asset: function (src) { return prefix + String(src || ''); },
+    link: function (url) {
+      var u = String(url || '');
+      if (u.indexOf('http') === 0 || u.indexOf('#') === 0 || u.indexOf('mailto:') === 0) return u;
+      return prefix + u;
+    }
+  };
+
+  // Build marker (idempotent).
+  if (html.indexOf('Generated by scripts/generate-site.js') === -1) {
+    html = html.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n' + BANNER);
+  }
+
+  var map = buildAboutSectionMap(content, ctx);
+  Object.keys(map).forEach(function (id) {
+    html = replaceContainer(html, id, map[id]);
+  });
+
+  return html;
+}
+
 /* ---------- Build ---------- */
 function generate() {
   var site = loadContent();
@@ -733,13 +788,19 @@ function generate() {
   write('resume/index.html', resumeEnHtml);
   write('ru/resume/index.html', resumeRuHtml);
 
+  // Personal / about pages (EN + RU).
+  var aboutEnHtml = fillAboutPage(read('about/index.html'), 'en', site.en);
+  var aboutRuHtml = fillAboutPage(read('ru/about/index.html'), 'ru', site.ru);
+  write('about/index.html', aboutEnHtml);
+  write('ru/about/index.html', aboutRuHtml);
+
   // UndeadOverhaul dedicated game pages (EN + RU).
   var gameEnHtml = fillGamePage(read('game/index.html'), 'en', site.en);
   var gameRuHtml = fillGamePage(read('ru/game/index.html'), 'ru', site.ru);
   write('game/index.html', gameEnHtml);
   write('ru/game/index.html', gameRuHtml);
 
-  console.log('✓ index.html, ru/index.html, resume/, ru/resume/, game/, ru/game/ regenerated from data/content.js');
+  console.log('✓ index.html, ru/index.html, resume/, ru/resume/, about/, ru/about/, game/, ru/game/ regenerated from data/content.js');
 }
 
 if (require.main === module) {

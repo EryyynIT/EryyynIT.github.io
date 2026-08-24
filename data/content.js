@@ -213,6 +213,22 @@ const CONTENT_EN = {
     ]
   },
 
+  /* --- About (full personal context for /about/) -------------------------
+     Home carries only a short teaser; this is the complete version.
+     ------------------------------------------------------------------ */
+  about: {
+    name: "EryyynIT — Michael",
+    role: "Backend Developer · Go / Python",
+    intro:
+      "EryyynIT is the public identity. Michael is the person behind it — " +
+      "and this page is the longer answer to \u201cwho is this?\u201d.",
+    story: [
+      "EryyynIT is the name I develop under — pronounced roughly like \u201cEryn\u201d, with an IT suffix, because that's the technical side of me. On a first-name basis, I'm Michael.",
+      "I build backend systems end to end. Commercially that means Python and FastAPI, with Go alongside. The rest of the time: infrastructure, small games, AI experiments, and anything that starts with an idea and ends with something that runs.",
+      "This site is my hub — the work, the game, and where I share the process. No buzzwords, no fake seniority; just what I build and how I build it."
+    ]
+  },
+
   /* --- Two paths --------------------------------------------------------
      The fork on the home page: the professional side or the game side.
      Each card is a compact set of links for one intent.
@@ -376,6 +392,7 @@ const CONTENT_EN = {
       { id: "x", label: "X", url: "https://x.com/EryyynIT" },
       { id: "github", label: "GitHub", url: "https://github.com/EryyynIT" },
       { id: "boosty", label: "Boosty", url: "https://boosty.to/eryyynit" },
+      { id: "about", label: "About", url: "about/" },
       { id: "resume", label: "Resume", url: "resume/" },
       { id: "game", label: "UndeadOverhaul", url: "game/" },
       { id: "artist", label: "Artist", url: "https://boosty.to/manevr" },
@@ -662,6 +679,22 @@ const CONTENT_RU = {
     ]
   },
 
+  /* --- Обо мне (полный личный контекст для /about/) ----------------------
+     На главной — только короткий тизер; здесь — полная версия.
+     ------------------------------------------------------------------ */
+  about: {
+    name: "EryyynIT — Михаил",
+    role: "Backend-разработчик · Go / Python",
+    intro:
+      "EryyynIT — публичный псевдоним. Михаил — человек за ним. " +
+      "Эта страница — полный ответ на вопрос «кто это?».",
+    story: [
+      "EryyynIT — имя, под которым я разрабатываю: читается примерно как «Эрин», с суффиксом IT, потому что это техническая сторона меня. Если по-человечески — я Михаил.",
+      "Я собираю backend-системы целиком. Коммерчески это Python и FastAPI, рядом — Go. В остальное время: инфраструктура, маленькие игры, эксперименты с ИИ и всё, что начинается с идеи и заканчивается тем, что работает.",
+      "Этот сайт — мой хаб: работа, игра и место, где я делюсь процессом. Без громких слов и фальшивого сеньорства; только то, что я делаю и как я это делаю."
+    ]
+  },
+
   paths: {
     developer: {
       tag: "~/dev",
@@ -806,6 +839,7 @@ const CONTENT_RU = {
       { id: "x", label: "X", url: "https://x.com/EryyynIT" },
       { id: "github", label: "GitHub", url: "https://github.com/EryyynIT" },
       { id: "boosty", label: "Boosty", url: "https://boosty.to/eryyynit" },
+      { id: "about", label: "Обо мне", url: "about/" },
       { id: "resume", label: "Резюме", url: "resume/" },
       { id: "game", label: "UndeadOverhaul", url: "game/" },
       { id: "artist", label: "Художник", url: "https://boosty.to/manevr" },
