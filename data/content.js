@@ -285,11 +285,11 @@ const CONTENT_EN = {
       ]
     },
     {
-      name: "Artist",
+      name: "BreadCatto",
       role: "Artist / Visual Development",
       about: "Visuals, art direction and everything the player sees on screen.",
-      avatarText: "A",
-      note: "Shown as Bread Catto on Boosty.",
+      avatarText: "B",
+      note: "Boosty: manevr",
       links: [
         { id: "x", label: "X", url: "https://x.com/Gemaglobin1" },
         { id: "boosty", label: "Boosty", url: "https://boosty.to/manevr" }
@@ -364,7 +364,7 @@ const CONTENT_EN = {
     artist: {
       label: "Support the artist",
       description:
-        "Support the artist behind UndeadOverhaul's visuals — known as Bread Catto on Boosty.",
+        "Support the artist behind UndeadOverhaul's visuals — BreadCatto.",
       url: "https://boosty.to/manevr"
     }
   },
@@ -721,11 +721,11 @@ const CONTENT_RU = {
       ]
     },
     {
-      name: "Художник",
+      name: "BreadCatto",
       role: "Художник / Визуальная разработка",
       about: "Визуал, арт-дирекшн и всё, что игрок видит на экране.",
-      avatarText: "A",
-      note: "На Boosty — Bread Catto.",
+      avatarText: "B",
+      note: "Boosty: manevr",
       links: [
         { id: "x", label: "X", url: "https://x.com/Gemaglobin1" },
         { id: "boosty", label: "Boosty", url: "https://boosty.to/manevr" }
@@ -795,7 +795,7 @@ const CONTENT_RU = {
     artist: {
       label: "Поддержать художника",
       description:
-        "Поддержать художника, который создаёт визуал UndeadOverhaul, — на Boosty он Bread Catto.",
+        "Поддержать художника, который создаёт визуал UndeadOverhaul, — BreadCatto.",
       url: "https://boosty.to/manevr"
     }
   },

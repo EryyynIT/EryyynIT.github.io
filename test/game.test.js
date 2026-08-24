@@ -86,9 +86,13 @@ function runChecks(html, lang) {
   /* --- Team --- */
   const team = innerOf(html, 'game-team') || '';
   add('team-cards', (team.match(/<article class="card team-card reveal">/g) || []).length === 2);
+  add('team-dev-name', team.includes('>EryyynIT</h3>') &&
+    team.includes(isRu ? 'Разработчик / Программист' : 'Developer / Programmer'));
   add('team-dev-links', team.includes('https://x.com/EryyynIT') && team.includes('https://www.tiktok.com/@barbaris.yt'));
+  add('team-artist-name', team.includes('>BreadCatto</h3>'));
+  add('team-artist-role', team.includes(isRu ? 'Художник / Визуальная разработка' : 'Artist / Visual Development'));
   add('team-artist-links', team.includes('https://x.com/Gemaglobin1') && team.includes('https://boosty.to/manevr'));
-  add('team-artist-note', team.includes('Bread Catto'));
+  add('team-artist-note', team.includes('manevr'));
 
   /* --- Follow (game links) --- */
   const links = innerOf(html, 'game-links') || '';
