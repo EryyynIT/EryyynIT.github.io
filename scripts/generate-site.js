@@ -573,9 +573,27 @@ function buildResumeSectionMap(content, ctx) {
    a shallow game teaser, a short about, discovery and support. Build
    areas and the workbench terminal live on the dedicated /about/ page
    (see buildAboutSectionMap below). */
+function renderPerson(c) {
+  var profileIds = ['github', 'x', 'tiktok', 'telegram-personal', 'boosty'];
+  var url = new URL('/', c.canonicalUrl).href;
+  var person = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': url + '#person',
+    name: c.site.name,
+    alternateName: c.site.person,
+    url: url,
+    jobTitle: c.site.role,
+    sameAs: c.socials.filter(function (s) { return profileIds.includes(s.id); })
+      .map(function (s) { return s.url; })
+  };
+  return JSON.stringify(person, null, 2).replace(/</g, '\\u003c');
+}
+
 function buildSectionMap(content, ctx) {
   var c = content;
   return {
+    'person-jsonld': renderPerson(c),
     'projects-grid': renderProjects(c, ctx),
     'projects-note': renderProjectsNote(c, ctx),
     'paths-grid': renderPaths(c, ctx),

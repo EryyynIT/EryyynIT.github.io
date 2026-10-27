@@ -57,6 +57,24 @@ function runChecks(html, lang) {
   add('og', html.includes('property="og:title"') && html.includes('property="og:image"'));
   add('twitter', html.includes('name="twitter:card"') && html.includes('name="twitter:image"'));
 
+  const jsonldBlocks = html.match(/<script\b[^>]*type="application\/ld\+json"[^>]*>/g) || [];
+  add('person-jsonld-single', jsonldBlocks.length === 1);
+  const person = JSON.parse(innerOf(html, 'person-jsonld') || '{}');
+  add('person-jsonld-schema', person['@context'] === 'https://schema.org' && person['@type'] === 'Person');
+  add('person-jsonld-identity', person['@id'] === 'https://eryyynit.github.io/#person' &&
+    person.url === 'https://eryyynit.github.io/' && person.name === 'EryyynIT');
+  add('person-jsonld-localized', person.alternateName === (isRu ? 'Михаил' : 'Michael') &&
+    person.jobTitle === (isRu ? 'Backend-разработчик · Go / Python' : 'Backend Developer · Go / Python'));
+  const profiles = [
+    'https://github.com/EryyynIT',
+    'https://x.com/EryyynIT',
+    'https://www.tiktok.com/@barbaris.yt',
+    'https://t.me/eprintln',
+    'https://boosty.to/eryyynit'
+  ];
+  add('person-jsonld-profiles', Array.isArray(person.sameAs) && person.sameAs.length === profiles.length &&
+    profiles.every((url) => person.sameAs.includes(url) && html.includes('href="' + url + '"')));
+
   /* --- Navigation / anchors / accessibility --- */
   // Home is the directional hub — build areas and the workbench terminal
   // were relocated to /about/, so the anchor list no longer includes them.
