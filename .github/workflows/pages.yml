@@ -29,11 +29,17 @@ jobs:
           # Auto-enables GitHub Pages on fresh repositories
           # (fixes "Get Pages site failed: Not Found").
           enablement: true
+      - name: Prepare public site
+        run: |
+          mkdir -p public
+          cp -r index.html about resume game ru css js assets favicon.svg robots.txt sitemap.xml BingSiteAuth.xml googlee26a7f172485daa4.html yandex_e492c0d3d0daa2af.html public/
+          mkdir -p public/.well-known
+          cp .well-known/discord public/.well-known/discord
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           include-hidden-files: true
-          path: '.'
+          path: public
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
