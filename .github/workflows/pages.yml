@@ -24,6 +24,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install test dependencies
+        run: npm ci
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
@@ -32,6 +39,10 @@ jobs:
           enablement: true
       - name: Build and test static site
         run: npm test
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Verify browser behavior
+        run: npm run test:browser
       - name: Prepare public artifact
         run: |
           set -euo pipefail

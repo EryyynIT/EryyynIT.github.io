@@ -6,9 +6,14 @@
   "scripts": {
     "build": "node scripts/generate-site.js",
     "pretest": "node scripts/generate-site.js",
-    "test": "node test/portfolio.test.js"
+    "test": "node test/portfolio.test.js",
+    "dev": "node scripts/serve.js",
+    "test:browser": "npm run build && playwright test"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
   }
 }
