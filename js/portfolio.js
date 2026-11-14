@@ -55,6 +55,11 @@
 
   var language = document.querySelector('.language');
   language.href += location.search + location.hash;
+  function prepareLanguageSwitch() {
+    if (window.EryyynLanguage) window.EryyynLanguage.prepareSwitch(language);
+  }
+  language.addEventListener('click', prepareLanguageSwitch);
+  language.addEventListener('auxclick', prepareLanguageSwitch);
   var print = document.getElementById('print');
   if (print) print.addEventListener('click', function () { window.print(); });
 })();

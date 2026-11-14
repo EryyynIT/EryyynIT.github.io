@@ -8,6 +8,7 @@ const { renderBody } = require('./prototype-templates.js');
 const root = path.join(__dirname, '..');
 const base = 'https://eryyynit.github.io';
 const pages = ['home', 'work', 'experience', 'about', 'resume', 'contact'];
+const languageBootstrap = fs.readFileSync(path.join(root, 'js/language.js'), 'utf8');
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const url = (lang, page) => (lang === 'ru' ? '/ru/' : '/') + (page === 'home' ? '' : page + '/');
 
@@ -34,6 +35,7 @@ function render(lang, page) {
 <html lang="${lang}">
 <head>
   <meta charset="utf-8">
+  <script>${languageBootstrap}</script>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">

@@ -990,9 +990,12 @@ for (const name of ['README.md', 'data/content.js', 'data/portfolio-content.js',
   const text = fs.readFileSync(path.join(ROOT, name), 'utf8');
   check('legacy-cv', name + ': no legacy file reference', !/assets\/cv|(?:Michael|Mikhail)Barkalov_CV(?:_RU)?\.pdf/.test(text));
 }
-
 for (const lang of LANGS) {
   check('content', lang + ': Go and Python visible in hero', /Go/.test(source[lang].hero.intro) && /Python/.test(source[lang].hero.intro));
+}
+const inlineLanguage = fs.readFileSync(path.join(ROOT, 'js/language.js'), 'utf8');
+for (const route of ROUTES) {
+  check(route.route, 'language bootstrap is embedded before styles', fs.readFileSync(route.file, 'utf8').includes('<script>' + inlineLanguage + '</script>'));
 }
 
 /* =====================================================================

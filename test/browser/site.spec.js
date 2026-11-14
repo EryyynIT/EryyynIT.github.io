@@ -6,6 +6,8 @@ for (const width of [320, 390, 768, 820, 1024, 1440]) {
     test(`${width}px ${colorScheme}: every language and route`, async ({ browser }) => {
       const context = await browser.newContext({ viewport: { width, height: 900 }, colorScheme });
       const page = await context.newPage();
+      // Layout coverage uses a matching browser locale; redirect behavior has its own suite.
+      await page.addInitScript(() => Object.defineProperty(navigator, 'languages', { get: () => [location.pathname.startsWith('/ru/') ? 'ru-RU' : 'en-US'] }));
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -46,6 +48,7 @@ for (const width of [320, 390, 768, 820, 1024, 1440]) {
 }
 
 test('preferences, route-aware language links, focus and print', async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'languages', { get: () => [location.pathname.startsWith('/ru/') ? 'ru-RU' : 'en-US'] }));
   await page.goto('/ru/resume/?source=check#skills');
   await page.locator('#theme-toggle').click();
   const theme = await page.locator('html').getAttribute('data-theme');
@@ -84,6 +87,7 @@ test('content and mobile navigation survive disabled JavaScript', async ({ brows
 });
 
 test('theme storage failure does not disable navigation', async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'languages', { get: () => ['ru-RU'] }));
   await page.addInitScript(() => Object.defineProperty(window, 'localStorage', { get() { throw new DOMException('Blocked', 'SecurityError'); } }));
   await page.setViewportSize({ width: 390, height: 850 });
   await page.goto('/ru/');

@@ -82,8 +82,16 @@ Browser checks cover 12 routes, both languages and themes at 320, 390, 768,
 820, 1024 and 1440 pixels, menu keyboard behavior, theme persistence,
 route-preserving language links, print contacts, reduced motion, no-JS and
 unavailable localStorage. Failed checks retain Playwright traces locally.
-Language is explicit in the route and all internal links preserve it; direct
-English and Russian URLs are never overridden by a stored redirect.
+Language preference is resolved before rendering: explicit `localStorage.language`,
+then the session fallback, then the first supported entry in `navigator.languages`
+(or `navigator.language` when the list is unavailable/empty), otherwise English.
+All six EN/RU route pairs redirect with `location.replace`, preserving query and
+hash. Detection never persists a preference. Manual EN/RU selection stores only
+that explicit choice; if local storage fails, session storage is used. With both
+blocked, a temporary query marker transfers the choice, is removed immediately,
+and is retained only in that history entry for reload/back. Static no-JS links,
+canonical, hreflang and sitemaps remain available. Browser-locale redirects can
+impede crawler discovery; there is no User-Agent exception or alternate content.
 
 The selected design constraints are documented in `.ui-craft/`. The original
 prototype at `/tmp/eryyynit-design-prototype` remains a reference, not the working
@@ -145,6 +153,7 @@ Verification and ownership files are preserved in the artifact:
 │   ├── portfolio.css           # styles for the generated site
 │   └── styles.css              # legacy stylesheet
 ├── js/
+│   ├── language.js             # build-inlined preference and route bootstrap
 │   ├── portfolio.js            # theme toggle and language-switch state
 │   └── main.js                 # legacy script
 ├── data/
