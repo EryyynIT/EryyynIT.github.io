@@ -982,6 +982,15 @@ for (const route of ROUTES) {
   }
 }
 
+/* Removed CV files must not return through archived sources or documentation. */
+for (const name of ['MichaelBarkalov_CV.pdf', 'MikhailBarkalov_CV_RU.pdf']) {
+  check('legacy-cv', 'old document is absent: ' + name, !fs.existsSync(path.join(ROOT, 'assets', 'cv', name)));
+}
+for (const name of ['README.md', 'data/content.js', 'data/portfolio-content.js', 'test/resume.test.js', '.github/workflows/pages.yml']) {
+  const text = fs.readFileSync(path.join(ROOT, name), 'utf8');
+  check('legacy-cv', name + ': no legacy file reference', !/assets\/cv|(?:Michael|Mikhail)Barkalov_CV(?:_RU)?\.pdf/.test(text));
+}
+
 /* =====================================================================
    Report
    ===================================================================== */

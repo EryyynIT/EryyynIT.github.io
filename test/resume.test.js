@@ -5,9 +5,8 @@
    from data/content.js, exactly like the home pages. This test reads the
    generated HTML directly — no browser, no JavaScript execution — and
    verifies that the whole professional profile is present in raw HTML:
-   name, summary, every experience entry, skills, contact links and the
-   PDF download CTA. That is the no-JS acceptance criterion for the
-   resume layer.
+   name, summary, every experience entry, skills and contact links.
+   This legacy suite is retained as archival source, not a current acceptance gate.
 
    It also exercises the language bootstrap embedded in each resume page
    (explicit EN/RU choice always wins; crawlers are never redirected).
@@ -104,13 +103,6 @@ function runChecks(html, lang) {
   add('skills-patterns', skills.includes('Event sourcing') && skills.includes('financial reconciliation'));
   add('skills-languages', skills.includes(isRu ? 'Русский — родной' : 'Russian — Native') &&
     skills.includes(isRu ? 'Английский — C1 (Advanced)' : 'English — C1'));
-
-  /* --- PDF download CTA --- */
-  const pdfCta = innerOf(html, 'resume-pdf-cta') || '';
-  add('pdf-cta',
-    pdfCta.includes(isRu ? 'Скачать PDF' : 'Download PDF') &&
-    pdfCta.includes('download') &&
-    pdfCta.includes(isRu ? '../../assets/cv/MikhailBarkalov_CV_RU.pdf' : '../assets/cv/MichaelBarkalov_CV.pdf'));
 
   /* --- Contact --- */
   add('contact-heading', (innerOf(html, 'resume-contact-title') || '')

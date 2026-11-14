@@ -113,12 +113,10 @@ to `main` and on manual dispatch:
    are copied; legacy game routes, media and CV PDFs are excluded.
 4. The artifact is uploaded and deployed with the official Pages actions.
 
-`assets/cv/` holds legacy CV PDFs with outdated and sensitive details. The new
-Pages artifact excludes them, but they remain accessible in the public Git
-repository and its history, and may remain on the currently deployed site until
-another deployment. The current resume is the generated `/resume/` page with
-browser print-to-PDF. Removing the files from the artifact does not erase copies
-or Git history.
+The outdated CV documents have been removed from the current tree. They remain
+in previous Git commits and may exist in earlier published or cached copies;
+no history is rewritten. The current resume is `/resume/` or `/ru/resume/`,
+with browser print-to-PDF. No downloadable legacy CV is offered.
 
 Verification and ownership files are preserved in the artifact:
 `BingSiteAuth.xml`, `googlee26a7f172485daa4.html`,
@@ -156,7 +154,6 @@ Verification and ownership files are preserved in the artifact:
 │   └── prototype-templates.js  # bilingual page bodies
 ├── assets/
 │   ├── og/                     # Open Graph images (portfolio-en.png, portfolio-ru.png)
-│   ├── cv/                     # legacy CV PDFs — excluded from publication
 │   └── ...                     # project and legacy media
 ├── favicon.svg
 ├── robots.txt

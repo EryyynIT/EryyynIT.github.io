@@ -60,7 +60,6 @@ const CONTENT_EN = {
     moreLink: "more",
     viewProject: "View project",
     commercialNote: "Commercial project — details on request.",
-    resumePdfLabel: "Download PDF",
     resumeResultLabel: "Result:"
   },
 
@@ -403,9 +402,8 @@ const CONTENT_EN = {
   },
 
   /* --- Resume / professional profile --------------------------------------
-     Source of truth: MichaelBarkalov_CV.pdf (English CV). Every fact,
-     date, metric and role below comes from that document — do not edit
-     without updating the PDF source as well.
+     Legacy profile retained for archival source context only.
+     The current professional profile is in data/portfolio-content.js.
      ------------------------------------------------------------------ */
   resume: {
     name: "Michael Barkalov",
@@ -497,7 +495,6 @@ const CONTENT_EN = {
       { category: "Patterns", items: ["Event sourcing", "async processing", "financial reconciliation"] },
       { category: "Languages", items: ["Russian — Native", "English — C1 Advanced"] }
     ],
-    pdf: { file: "assets/cv/MichaelBarkalov_CV.pdf" },
     contactHeading: "Interested in working together?",
     contactSub: "Email and Telegram are the fastest ways to reach me.",
     contactLinks: [
@@ -544,7 +541,6 @@ const CONTENT_RU = {
     moreLink: "подробнее",
     viewProject: "Открыть проект",
     commercialNote: "Коммерческий проект — детали по запросу.",
-    resumePdfLabel: "Скачать PDF",
     resumeResultLabel: "Результат:"
   },
 
@@ -852,9 +848,8 @@ const CONTENT_RU = {
   },
 
   /* --- Резюме / профессиональный профиль ----------------------------------
-     Источник: БаркаловМихаил_CV.pdf (русское CV). Все факты, даты,
-     метрики и роли ниже взяты из этого документа — не редактируйте
-     без обновления PDF-источника.
+     Устаревший профиль сохранён только как архив исходников.
+     Актуальный профессиональный профиль: data/portfolio-content.js.
      ------------------------------------------------------------------ */
   resume: {
     name: "Михаил Баркалов",
@@ -945,7 +940,6 @@ const CONTENT_RU = {
       { category: "Паттерны", items: ["Event sourcing", "async processing", "financial reconciliation"] },
       { category: "Языки общения", items: ["Русский — родной", "Английский — C1 (Advanced)"] }
     ],
-    pdf: { file: "assets/cv/MikhailBarkalov_CV_RU.pdf" },
     contactHeading: "Интересно поработать вместе?",
     contactSub: "Быстрее всего до меня можно добраться по почте или в Telegram.",
     contactLinks: [
