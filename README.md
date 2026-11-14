@@ -28,11 +28,12 @@ links to its counterpart.
 
 ## Architecture
 
-Content is authored once in `data/portfolio-content.js` and turned into static
-HTML by the build step:
+All bilingual copy, project facts and shared labels live in
+`data/portfolio-content.js`. `scripts/prototype-templates.js` is a pure renderer;
+the build step combines it with the shared page shell into static HTML:
 
 ```
-data/portfolio-content.js        ← single source of truth: { en, ru }
+data/portfolio-content.js + scripts/prototype-templates.js
         │  npm run build
         ▼
 scripts/generate-site.js
@@ -48,9 +49,9 @@ scripts/generate-site.js
 - `data/portfolio-content.js` is a CommonJS module exporting two language trees,
   `en` and `ru`. Both trees have the same shape: `nav`, `hero`, `home`, `work`,
   `experience`, `about`, `resume`, `contact`, `projects[]`, `jobs[]`.
-- `scripts/generate-site.js` renders every route from those trees, writes the
-  twelve `index.html` files and injects canonical, `hreflang` and Open Graph
-  metadata.
+- `scripts/prototype-templates.js` escapes and renders page bodies from the data;
+  `scripts/generate-site.js` combines those bodies with the shared shell,
+  canonical, `hreflang`, Open Graph and home-page Person metadata.
 - The data module is a build-time dependency only. Browsers receive complete
   semantic HTML; no content is fetched or injected at runtime.
 
@@ -62,10 +63,32 @@ npm run build
 
 This runs `node scripts/generate-site.js` and rewrites the twelve generated
 pages listed above. The generated HTML is committed alongside content changes.
-There are no third-party dependencies, so no install step is required.
+The static build has no runtime dependencies. Browser checks use the pinned
+Playwright development dependency; run `npm ci` and `npx playwright install chromium`
+once before those checks.
 
-Keep the `en` and `ru` trees in `data/portfolio-content.js` in sync — the
-generator reads the same keys from both.
+Keep both languages in sync when changing navigation, metadata or page copy.
+
+## Local development and checks
+
+```sh
+npm run build
+npm run dev          # http://127.0.0.1:4173; serves this repository
+npm test             # static route, fact, metadata and local-asset checks
+npm run test:browser # starts its own local server; stop npm run dev first
+```
+
+Browser checks cover 12 routes, both languages and themes at 320, 390, 768,
+820, 1024 and 1440 pixels, menu keyboard behavior, theme persistence,
+route-preserving language links, print contacts, reduced motion, no-JS and
+unavailable localStorage. Failed checks retain Playwright traces locally.
+Language is explicit in the route and all internal links preserve it; direct
+English and Russian URLs are never overridden by a stored redirect.
+
+The selected design constraints are documented in `.ui-craft/`. The original
+prototype at `/tmp/eryyynit-design-prototype` remains a reference, not the working
+site. Old top-level test files target the legacy hub and are not part of the
+current `npm test` contract.
 
 ## Content rules
 
@@ -82,12 +105,12 @@ The site only states confirmed facts:
 `.github/workflows/pages.yml` publishes the site to GitHub Pages on every push
 to `main` and on manual dispatch:
 
-1. `npm test` regenerates all pages from `data/portfolio-content.js` and checks the generated site.
+1. `npm test` regenerates all pages from the content and page templates and checks the generated site.
 2. The workflow assembles a `public/` artifact containing the six English
    routes, their `/ru/` mirrors, `css/`, `js/`, `assets/`, `favicon.svg`,
    `robots.txt`, `sitemap.xml` and the domain-verification files.
-3. Only the current styles, script and Open Graph images are copied; legacy
-   game routes, media and CV PDFs are excluded from the artifact.
+3. Only the current styles, script, local Golos Text fonts and Open Graph images
+   are copied; legacy game routes, media and CV PDFs are excluded.
 4. The artifact is uploaded and deployed with the official Pages actions.
 
 `assets/cv/` holds legacy CV PDFs with outdated and sensitive details. The new
@@ -129,7 +152,8 @@ Verification and ownership files are preserved in the artifact:
 ├── data/
 │   └── portfolio-content.js    # ← edit content here (EN + RU)
 ├── scripts/
-│   └── generate-site.js        # build step: portfolio-content.js → static HTML
+│   ├── generate-site.js        # page shell and static build
+│   └── prototype-templates.js  # bilingual page bodies
 ├── assets/
 │   ├── og/                     # Open Graph images (portfolio-en.png, portfolio-ru.png)
 │   ├── cv/                     # legacy CV PDFs — excluded from publication
