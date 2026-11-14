@@ -59,7 +59,7 @@ const en = {
     identity: "Michael · also known as EryyynIT",
     heading: ["Engineering, with", "the product in mind."],
     intro:
-      "Backend systems, technical ownership, and public projects. The work, and the person behind it.",
+      "I build backend systems with Go and Python, from business logic and integrations to implementation.",
     primary: { label: "Explore Work", page: "work" },
     secondary: { label: "Professional Experience", page: "experience" },
     tertiary: { label: "Résumé", page: "resume" },
@@ -141,16 +141,13 @@ const en = {
     asideBrand: "EryyynIT",
     asideText: "My public development identity.",
     paragraphs: [
-      "I’m Michael, a backend developer; online I go by EryyynIT. I write mostly Go and Python.",
+      "I’m Michael; online I go by EryyynIT. Before choosing a technical solution, I want to understand the problem, the product and the need behind it.",
 
-      "I work on backend systems and the products around them: technical ownership in an " +
-      "early-stage venture and sustained development on a confidential platform.",
+      "I’m interested in backend systems, integrations and architecture, especially where engineering decisions shape how a product works.",
 
-      "My public repositories offer a closer look at engineering details: message delivery, " +
-      "idempotency, concurrency and the shape of an HTTP API. The examples here began as test assignments.",
+      "I work with existing systems as well as new features: understanding the code, making technical decisions and taking responsibility for the result.",
 
-      "My professional work has also meant taking responsibility beyond code: working with " +
-      "existing systems, coordinating development and discussing priorities with a founder."
+      "Languages and tools are a means to solve the problem, not the starting point. That is what interests me about working between engineering and product."
     ],
     storyTitle: "A place for the context.",
     storyParagraphs: [
@@ -338,8 +335,7 @@ const ru = {
     identity: "Михаил · он же EryyynIT",
     heading: ["Разработка", "с пониманием продукта."],
     intro:
-      "Backend-системы, техническая ответственность и публичные проекты. Работа и человек, " +
-      "который за ней стоит.",
+      "Разрабатываю backend-системы на Go и Python — от бизнес-логики и интеграций до технической реализации.",
     primary: { label: "Смотреть работы", page: "work" },
     secondary: { label: "Профессиональный опыт", page: "experience" },
     tertiary: { label: "Резюме", page: "resume" },
@@ -420,16 +416,13 @@ const ru = {
     asideBrand: "EryyynIT",
     asideText: "Мой публичный псевдоним разработчика.",
     paragraphs: [
-      "Я Михаил, backend-разработчик; в сети — EryyynIT. Пишу в основном на Go и Python.",
+      "Я Михаил, в сети — EryyynIT. Прежде чем выбирать техническое решение, мне важно понять задачу, продукт и потребность, которая за ними стоит.",
 
-      "Работаю над backend-системами и продуктами, частью которых они становятся: техническая " +
-      "ответственность в раннем проекте и длительная разработка конфиденциальной платформы.",
+      "Мне интересны backend-системы, интеграции и архитектура — особенно там, где инженерные решения влияют на то, как работает продукт.",
 
-      "В открытых репозиториях можно подробнее рассмотреть инженерные детали: доставку сообщений, " +
-      "идемпотентность, конкурентность и устройство HTTP API. Представленные здесь примеры начинались как тестовые задания.",
+      "Я работаю не только с новыми функциями, но и с существующими системами: разбираюсь в коде, принимаю технические решения и отвечаю за результат.",
 
-      "Профессиональная работа включает для меня не только код: развитие существующих систем, " +
-      "координацию разработки и обсуждение приоритетов с фаундером."
+      "Языки и инструменты для меня — средства решения задачи, а не отправная точка. Поэтому мне интересна работа на пересечении инженерии и продукта."
     ],
     storyTitle: "Место для контекста.",
     storyParagraphs: [

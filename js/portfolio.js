@@ -10,8 +10,11 @@
   function setTheme(theme) {
     root.dataset.theme = theme;
     var dark = theme === 'dark';
+    // A toggle keeps one state label; aria-pressed announces whether it is on.
+    var label = ru ? 'Тема: тёмный режим' : 'Theme: dark mode';
+    themeButton.setAttribute('aria-label', label);
     themeButton.setAttribute('aria-pressed', String(dark));
-    themeButton.title = ru ? (dark ? 'Включить светлую тему' : 'Включить тёмную тему') : (dark ? 'Switch to light theme' : 'Switch to dark theme');
+    themeButton.title = label;
     document.querySelector('meta[name="theme-color"]').content = dark ? '#111a18' : '#f5f7f6';
   }
   setTheme(root.dataset.theme || 'light');

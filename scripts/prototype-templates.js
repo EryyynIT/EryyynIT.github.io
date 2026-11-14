@@ -128,14 +128,16 @@ function resumeEntry(ctx, job) {
 function contactSection(ctx) {
   const c = ctx.c;
   const contacts = ctx.contacts;
-  const address = [contacts.email, contacts.telegramHandle, contacts.githubHandle].join(' · ');
+  const address = '<a href="' + esc(contacts.emailHref) + '">' + esc(contacts.email) + '</a> · ' +
+    '<a href="' + esc(contacts.telegramHref) + '">' + esc(contacts.telegramHandle) + '</a> · ' +
+    '<a href="' + esc(contacts.githubHref) + '">' + esc(contacts.githubHandle) + '</a>';
   return '<section class="contact" id="contact"><h2>' + esc(c.contact.sectionTitle) +
     '</h2><div><p>' + esc(c.contact.sectionText) +
     '</p><div class="actions"><a class="text-link" href="' + esc(contacts.emailHref) + '">' +
     esc(c.ui.email) + '</a>' +
     ctx.external(c.ui.telegram, contacts.telegramHref) +
     ctx.external(c.ui.github, contacts.githubHref) +
-    '</div><div class="contact-address">' + esc(address) + '</div></div></section>';
+    '</div><div class="contact-address">' + address + '</div></div></section>';
 }
 
 function contact(ctx) {

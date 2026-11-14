@@ -991,6 +991,10 @@ for (const name of ['README.md', 'data/content.js', 'data/portfolio-content.js',
   check('legacy-cv', name + ': no legacy file reference', !/assets\/cv|(?:Michael|Mikhail)Barkalov_CV(?:_RU)?\.pdf/.test(text));
 }
 
+for (const lang of LANGS) {
+  check('content', lang + ': Go and Python visible in hero', /Go/.test(source[lang].hero.intro) && /Python/.test(source[lang].hero.intro));
+}
+
 /* =====================================================================
    Report
    ===================================================================== */
