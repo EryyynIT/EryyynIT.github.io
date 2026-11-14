@@ -1,31 +1,57 @@
 (function () {
   'use strict';
   var root = document.documentElement;
-  var button = document.getElementById('theme-toggle');
   var ru = root.lang === 'ru';
-  // A saved choice applies when returning to the language-neutral root URL.
-  try {
-    if (location.pathname === '/' && localStorage.getItem('lang') === 'ru') {
-      location.replace('/ru/' + location.search + location.hash);
-    }
-  } catch (e) { /* storage may be unavailable */ }
-  function update(theme) {
+  var themeButton = document.getElementById('theme-toggle');
+  var menu = document.getElementById('menu');
+  var nav = document.getElementById('navigation');
+  var media = window.matchMedia('(max-width:820px)');
+
+  function setTheme(theme) {
     root.dataset.theme = theme;
     var dark = theme === 'dark';
-    button.setAttribute('aria-label', ru ? 'Тёмная тема' : 'Dark theme');
-    button.setAttribute('aria-pressed', String(dark));
-    button.setAttribute('title', ru ? (dark ? 'Включить светлую тему' : 'Включить тёмную тему') : (dark ? 'Switch to light theme' : 'Switch to dark theme'));
-    document.querySelector('meta[name="theme-color"]').content = dark ? '#111d1b' : '#f5f7f5';
+    themeButton.setAttribute('aria-pressed', String(dark));
+    themeButton.title = ru ? (dark ? 'Включить светлую тему' : 'Включить тёмную тему') : (dark ? 'Switch to light theme' : 'Switch to dark theme');
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#111a18' : '#f5f7f6';
   }
-  update(root.dataset.theme || 'light');
-  button.addEventListener('click', function () {
-    var theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    update(theme);
-    try { localStorage.setItem('theme', theme); } catch (e) { /* storage may be unavailable */ }
+  setTheme(root.dataset.theme || 'light');
+  themeButton.hidden = false;
+  themeButton.addEventListener('click', function () {
+    var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    try { localStorage.setItem('theme', next); } catch (e) { /* Storage is optional. */ }
   });
+
+  function setMenu(open, returnFocus) {
+    nav.classList.toggle('open', open);
+    menu.setAttribute('aria-expanded', String(open));
+    menu.textContent = open ? menu.dataset.closeLabel : menu.dataset.openLabel;
+    if (returnFocus) menu.focus();
+  }
+  menu.hidden = false;
+  menu.addEventListener('click', function () {
+    var open = menu.getAttribute('aria-expanded') !== 'true';
+    setMenu(open, false);
+    if (open) nav.querySelector('a').focus();
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && nav.classList.contains('open')) setMenu(false, true);
+  });
+  nav.addEventListener('click', function (event) {
+    if (event.target.closest('a') && media.matches) setMenu(false, false);
+  });
+  media.addEventListener('change', function (event) {
+    if (!event.matches) {
+      var focusedMenu = document.activeElement === menu;
+      setMenu(false, false);
+      if (focusedMenu) nav.querySelector('a').focus();
+    }
+  });
+  // Collapse navigation only after its controls are wired; a failed script leaves links usable.
+  root.classList.add('js');
+
   var language = document.querySelector('.language');
   language.href += location.search + location.hash;
-  language.addEventListener('click', function () {
-    try { localStorage.setItem('lang', ru ? 'en' : 'ru'); } catch (e) { /* storage may be unavailable */ }
-  });
+  var print = document.getElementById('print');
+  if (print) print.addEventListener('click', function () { window.print(); });
 })();
