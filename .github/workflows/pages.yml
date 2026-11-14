@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -29,16 +30,39 @@ jobs:
           # Auto-enables GitHub Pages on fresh repositories
           # (fixes "Get Pages site failed: Not Found").
           enablement: true
-      - name: Prepare public site
+      - name: Build and test static site
+        run: npm test
+      - name: Prepare public artifact
         run: |
+          set -euo pipefail
           mkdir -p public
-          cp -r index.html about resume game ru css js assets favicon.svg robots.txt sitemap.xml BingSiteAuth.xml googlee26a7f172485daa4.html yandex_e492c0d3d0daa2af.html public/
-          mkdir -p public/.well-known
-          cp .well-known/discord public/.well-known/discord
+
+          # Public routes: /, /work/, /experience/, /about/, /resume/, /contact/
+          # and their /ru/ mirrors. Only generated pages and runtime assets are
+          # copied — data/, scripts/, tests and docs stay out of the artifact.
+          cp index.html favicon.svg robots.txt sitemap.xml \
+            BingSiteAuth.xml googlee26a7f172485daa4.html yandex_e492c0d3d0daa2af.html \
+            public/
+          cp -r work experience about resume contact public/
+          mkdir -p public/ru public/css public/js public/assets
+          cp ru/index.html ru/BingSiteAuth.xml ru/sitemap.xml public/ru/
+          cp -r ru/work ru/experience ru/about ru/resume ru/contact public/ru/
+          cp css/portfolio.css public/css/
+          cp js/portfolio.js public/js/
+          mkdir -p public/assets/og
+          cp assets/og/portfolio-en.png assets/og/portfolio-ru.png public/assets/og/
+
+          # Preserve ownership verification without publishing legacy sources.
+          cp -r .well-known public/
+
+          # Fail early if the build did not produce every public route.
+          for route in "" work/ experience/ about/ resume/ contact/; do
+            test -f "public/${route}index.html"
+            test -f "public/ru/${route}index.html"
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          include-hidden-files: true
           path: public
       - name: Deploy to GitHub Pages
         id: deployment

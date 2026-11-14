@@ -1,192 +1,161 @@
 # personal-hub
 
-**EryyynIT's** personal developer hub — a static site that works as a portfolio,
-social links hub and showcase for the indie game **UndeadOverhaul**.
+**Michael Barkalov / EryyynIT** — a bilingual static portfolio for backend
+engineering in Go and Python. It presents confirmed work and experiments: an
+early-stage CPA/AdTech platform, a confidential web platform, and small projects
+built to understand specific problems.
 
-> EryyynIT is the public developer identity (pronounced roughly like "Eryn"). Michael is the person behind it.
-
-The site is structured around **user intent** — every visitor gets a short path to
-the context they care about, and each specialized page goes deep from there.
-
-Built with plain **HTML + CSS + vanilla JS**. No frameworks, no backend. All content is
-**pre-rendered at build time** from a single content source into static HTML — JavaScript
-only adds interactive behavior (theme, menu, language preference, reveal animations).
+Plain **HTML + CSS + vanilla JS**, no frameworks and no backend. Every page is
+**pre-rendered at build time** from a single content source into static HTML;
+JavaScript only handles presentation details such as the light/dark theme toggle
+and carrying the query string across a language switch.
 
 ## Routes
 
-```
-/
-├── /                  ← home: personal hub (who / selected work / two paths / find me / support)
-├── /resume/           ← professional profile (EN, from the source CV)
-├── /about/            ← personal context (Michael / EryyynIT, full story)
-├── /game/             ← UndeadOverhaul — the indie game (media, team, devlog, support)
-└── /ru/               ← Russian versions of all routes (/ru/, /ru/resume/, /ru/about/, /ru/game/)
-```
+English is served from the site root; Russian mirrors every route under `/ru/`.
 
-```
-EryyynIT / Backend Developer · Go / Python
-│
-├── Hero                 ← who I am (5 seconds)
-├── Selected work        ← ADNova · Async Payment Processing Service · queue
-│   └── More experiments → MailingTGBot · go-exercises · Tic-Tac-ToeAI
-├── Two paths            ← Developer (Resume / GitHub / Work with me) | Game (page)
-├── UndeadOverhaul       ← teaser: 1 asset, status, one CTA → /game/
-├── About                ← short introduction (Who is Michael?) → /about/
-├── Work with me         ← contact CTA (email / Telegram)
-├── Find me              ← grouped discovery (Code / Game / Personal / Support)
-├── Support              ← developer + artist (independent Boosty links)
-└── Footer               ← utility layer (X · GitHub · About · Resume · Game · Artist · Support)
+| English | Russian | Content |
+| --- | --- | --- |
+| `/` | `/ru/` | Introduction, selected work, experience summary, about teaser, contact |
+| `/work/` | `/ru/work/` | Experiments with context, stack and repository links |
+| `/experience/` | `/ru/experience/` | Engagements described by scope and what was actually built |
+| `/about/` | `/ru/about/` | Personal and professional narrative |
+| `/resume/` | `/ru/resume/` | Experience and skills in one place, printable to PDF |
+| `/contact/` | `/ru/contact/` | Email, Telegram and GitHub |
 
-/about/ (personal context)
-├── About hero           ← public identity + the person behind it
-├── Story                ← complete personal narrative (Michael / EryyynIT)
-├── What I build         ← capabilities (Backend / Infrastructure / Experiments)
-├── Right now            ← terminal-style "currently building"
-├── Work with me         ← contact CTA (email / Telegram)
-└── Footer               ← back to hub, resume, game
-
-/game/ (UndeadOverhaul)
-├── Game hero            ← title, tagline, status, cover
-├── Overview             ← honest project description + facts
-├── Media                ← screenshots / concept art gallery
-├── Team                 ← EryyynIT (Developer / Programmer) + BreadCatto (Artist / Visual Development)
-├── Follow               ← Telegram devlog + team socials
-├── Support              ← developer + artist (prominent here)
-└── Footer               ← back to hub, resume, GitHub, Telegram, artist, support
-
-/resume/ (professional profile, unchanged second layer)
-├── /resume/             ← EN professional profile (from MichaelBarkalov_CV.pdf)
-├── /ru/resume/          ← RU professional profile (from БаркаловМихаил_CV.pdf)
-├── assets/cv/           ← downloadable PDF CVs (source documents, unmodified)
-└── contact: email · Telegram · GitHub
-```
+Every generated page carries its own canonical URL and reciprocal `hreflang`
+links to its counterpart.
 
 ## Architecture
 
-Content is authored once in `data/content.js` and turned into static HTML by a small
-build step:
+Content is authored once in `data/portfolio-content.js` and turned into static
+HTML by the build step:
 
 ```
-data/content.js          ← single source of truth (EN + RU)
-       │  npm run build
-       ▼
+data/portfolio-content.js        ← single source of truth: { en, ru }
+        │  npm run build
+        ▼
 scripts/generate-site.js
-       │
-       ├── index.html        ← pre-rendered EN home
-       ├── ru/index.html     ← pre-rendered RU home
-       ├── resume/index.html ← EN professional profile
-       ├── ru/resume/index.html ← RU professional profile
-       ├── about/index.html  ← EN personal / about page
-       ├── ru/about/index.html ← RU personal / about page
-       ├── game/index.html   ← EN UndeadOverhaul page
-       └── ru/game/index.html ← RU UndeadOverhaul page
+        │
+        ├── index.html              ru/index.html
+        ├── work/index.html         ru/work/index.html
+        ├── experience/index.html   ru/experience/index.html
+        ├── about/index.html        ru/about/index.html
+        ├── resume/index.html       ru/resume/index.html
+        └── contact/index.html      ru/contact/index.html
 ```
 
-The browser receives fully pre-rendered semantic HTML — every project, link, team member,
-social and footer entry is in the raw HTML. No JavaScript is required to see any content.
-`data/content.js` is a build-time dependency only and is not shipped to the browser.
+- `data/portfolio-content.js` is a CommonJS module exporting two language trees,
+  `en` and `ru`. Both trees have the same shape: `nav`, `hero`, `home`, `work`,
+  `experience`, `about`, `resume`, `contact`, `projects[]`, `jobs[]`.
+- `scripts/generate-site.js` renders every route from those trees, writes the
+  twelve `index.html` files and injects canonical, `hreflang` and Open Graph
+  metadata.
+- The data module is a build-time dependency only. Browsers receive complete
+  semantic HTML; no content is fetched or injected at runtime.
 
-## Languages
-
-- **English (primary)** — `/`, `/resume/`, `/about/`, `/game/`
-- **Russian** — `/ru/`, `/ru/resume/`, `/ru/about/`, `/ru/game/`
-
-All pages are generated from `data/content.js` (`CONTENT_EN` and `CONTENT_RU`). The
-compact `EN / RU` switcher in the header is **route-aware**: switching language never
-changes the page context (home ↔ home, resume ↔ resume, about ↔ about, game ↔ game),
-preserves the query string, and carries the current viewport position over.
-
-**Automatic language selection** — the site matches the visitor's browser language on the
-first visit: Russian-speaking visitors are sent from `/` to `/ru/`, and non-Russian-speaking
-visitors who land on `/ru/` are sent back to `/`. An explicit choice made via the switcher
-is remembered in `localStorage` and always takes precedence. Crawlers and robots are never
-redirected, so every language route stays directly crawlable.
-
-## Features
-
-- **Light / dark themes** — toggle, saved to `localStorage`, defaults to `prefers-color-scheme`
-- **Responsive** — 320px → 1440px+, mobile hamburger menu
-- **Pre-rendered content** — build areas, projects, paths, workbench, game teaser, team,
-  socials, support and footer are static HTML generated from `data/content.js` (EN + RU);
-  no runtime content rendering
-- **Project hierarchy** — featured grid (selected work) + compact rows (experiments)
-- **Two paths** — an explicit developer / game fork on the home page
-- **Dedicated game page** — UndeadOverhaul has its own route with media, team, devlog and support
-- **SEO** — content in raw HTML, semantic HTML, Open Graph (per-language 1200×630 image),
-  Twitter card, canonical, hreflang, favicon, sitemap, robots.txt
-- **Accessible** — skip link, aria labels, focus states, keyboard navigation, `prefers-reduced-motion`
-- **Fast** — zero external dependencies, inline SVG icons, local placeholder assets
-
-## Structure
-
-```
-/
-├── index.html              # generated English home (build artifact)
-├── resume/                 # generated English resume (build artifact)
-├── about/                  # generated English personal page (build artifact)
-├── game/                   # generated English UndeadOverhaul page (build artifact)
-├── ru/
-│   ├── index.html          # generated Russian home (build artifact)
-│   ├── resume/             # generated Russian resume (build artifact)
-│   ├── about/              # generated Russian personal page (build artifact)
-│   └── game/               # generated Russian UndeadOverhaul page (build artifact)
-├── css/
-│   └── styles.css          # design tokens (colors) in :root / [data-theme="dark"]
-├── js/
-│   └── main.js             # interactive behavior only: theme, menu, lang choice, reveal, active nav
-├── data/
-│   └── content.js          # ← edit content here (single source of truth, EN + RU)
-├── scripts/
-│   └── generate-site.js    # build step: content.js → pre-rendered HTML
-├── assets/
-│   ├── game/               # UndeadOverhaul media (placeholders now)
-│   ├── projects/           # project card covers (placeholders now)
-│   ├── og/                 # Open Graph images (text-generated SVG + PNG render)
-│   ├── images/             # legacy og-cover placeholder
-│   ├── profile/            # reserved
-│   └── icons/              # reserved
-├── favicon.svg
-├── robots.txt
-├── sitemap.xml
-├── package.json            # npm run build / npm test
-└── .github/workflows/pages.yml
-```
-
-## Edit content
-
-Everything editable lives in `data/content.js` — identity, build areas, projects,
-paths, workbench, game info, team, socials, support, footer and UI labels, in **both**
-languages:
-
-- `CONTENT_EN` — English (primary)
-- `CONTENT_RU` — Russian
-
-After editing, regenerate the static pages:
+## Build
 
 ```
 npm run build
 ```
 
-This rewrites `index.html`, `ru/index.html`, `resume/index.html`, `ru/resume/index.html`,
-`about/index.html`, `ru/about/index.html`, `game/index.html` and `ru/game/index.html` from
-`data/content.js` (relative asset paths are resolved per language automatically). Commit
-the regenerated HTML together with your content change.
+This runs `node scripts/generate-site.js` and rewrites the twelve generated
+pages listed above. The generated HTML is committed alongside content changes.
+There are no third-party dependencies, so no install step is required.
 
-## Test
+Keep the `en` and `ru` trees in `data/portfolio-content.js` in sync — the
+generator reads the same keys from both.
+
+## Content rules
+
+The site only states confirmed facts:
+
+- Commercial work is described by scope — what was actually built.
+- Clients that cannot be named stay unnamed; no industry is invented.
+- Projects are experiments. No benchmarks, users, adoption or results are
+  claimed for them.
+- Titles are exactly the titles held; no role is inflated.
+
+## Deployment
+
+`.github/workflows/pages.yml` publishes the site to GitHub Pages on every push
+to `main` and on manual dispatch:
+
+1. `npm test` regenerates all pages from `data/portfolio-content.js` and checks the generated site.
+2. The workflow assembles a `public/` artifact containing the six English
+   routes, their `/ru/` mirrors, `css/`, `js/`, `assets/`, `favicon.svg`,
+   `robots.txt`, `sitemap.xml` and the domain-verification files.
+3. Only the current styles, script and Open Graph images are copied; legacy
+   game routes, media and CV PDFs are excluded from the artifact.
+4. The artifact is uploaded and deployed with the official Pages actions.
+
+`assets/cv/` holds legacy CV PDFs with outdated and sensitive details. The new
+Pages artifact excludes them, but they remain accessible in the public Git
+repository and its history, and may remain on the currently deployed site until
+another deployment. The current resume is the generated `/resume/` page with
+browser print-to-PDF. Removing the files from the artifact does not erase copies
+or Git history.
+
+Verification and ownership files are preserved in the artifact:
+`BingSiteAuth.xml`, `googlee26a7f172485daa4.html`,
+`yandex_e492c0d3d0daa2af.html`, `ru/BingSiteAuth.xml` and `.well-known/`.
+
+## Structure
 
 ```
-npm test
+/
+├── index.html                  # generated EN home
+├── work/index.html             # generated EN work
+├── experience/index.html       # generated EN experience
+├── about/index.html            # generated EN about
+├── resume/index.html           # generated EN resume
+├── contact/index.html          # generated EN contact
+├── ru/                         # generated Russian mirror of all six routes
+│   ├── index.html
+│   ├── work/index.html
+│   ├── experience/index.html
+│   ├── about/index.html
+│   ├── resume/index.html
+│   ├── contact/index.html
+│   ├── sitemap.xml
+│   └── BingSiteAuth.xml
+├── css/
+│   ├── portfolio.css           # styles for the generated site
+│   └── styles.css              # legacy stylesheet
+├── js/
+│   ├── portfolio.js            # theme toggle and language-switch state
+│   └── main.js                 # legacy script
+├── data/
+│   └── portfolio-content.js    # ← edit content here (EN + RU)
+├── scripts/
+│   └── generate-site.js        # build step: portfolio-content.js → static HTML
+├── assets/
+│   ├── og/                     # Open Graph images (portfolio-en.png, portfolio-ru.png)
+│   ├── cv/                     # legacy CV PDFs — excluded from publication
+│   └── ...                     # project and legacy media
+├── favicon.svg
+├── robots.txt
+├── sitemap.xml
+├── BingSiteAuth.xml
+├── googlee26a7f172485daa4.html
+├── yandex_e492c0d3d0daa2af.html
+├── .well-known/
+│   └── discord                 # domain verification
+├── .github/workflows/pages.yml # build + GitHub Pages deployment
+└── package.json
 ```
 
-Runs `scripts/generate-site.js` first, then:
+`game/`, `ru/game/`, `assets/game/` and `data/content.js` are legacy sources from
+the previous hub. They stay in the repository but are not used by the build and
+are not published.
 
-- `test/smoke.test.js` — reads the generated home HTML directly (no JS execution) and
-  verifies all core content is present in raw HTML, semantic structure is intact, relative
-  asset URLs resolve, and no stale containers / URLs remain.
-- `test/lang-redirect.test.js` — verifies the auto language selection for the home pages:
-  explicit choice wins, browser language drives the initial route, crawlers are never redirected.
-- `test/resume.test.js` — the same pre-render + language checks for `/resume/` and `/ru/resume/`.
-- `test/about.test.js` — the same pre-render + language checks for `/about/` and `/ru/about/`.
-- `test/game.test.js` — the same pre-render + language checks for `/game/` and `/ru/game/`.
-- `test/nav-state.test.js` — statically verifies the route-aware language switcher contract
-  (home / resume / about / game routes, viewport carry-over, no hardcoded redirects).
+## Languages
+
+- **English (primary)** — served from `/`
+- **Russian** — served from `/ru/`
+
+Each page's header links to the same page in the other language; canonical and
+`hreflang` metadata are generated with the page, so both language versions stay
+directly crawlable. `sitemap.xml` lists all routes, and `ru/sitemap.xml` lists
+the Russian ones.
