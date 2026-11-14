@@ -51,6 +51,7 @@ jobs:
           cp js/portfolio.js public/js/
           mkdir -p public/assets/og
           cp assets/og/portfolio-en.png assets/og/portfolio-ru.png public/assets/og/
+          cp -r assets/fonts public/assets/
 
           # Preserve ownership verification without publishing legacy sources.
           cp -r .well-known public/
