@@ -2,11 +2,11 @@
   "name": "personal-hub",
   "version": "1.0.0",
   "private": true,
-  "description": "EryyynIT personal hub — static one-page site pre-rendered from data/content.js at build time",
+  "description": "EryyynIT bilingual portfolio — pre-rendered static pages",
   "scripts": {
     "build": "node scripts/generate-site.js",
     "pretest": "node scripts/generate-site.js",
-    "test": "node test/smoke.test.js && node test/lang-redirect.test.js && node test/resume.test.js && node test/about.test.js && node test/game.test.js && node test/nav-state.test.js"
+    "test": "node test/portfolio.test.js"
   },
   "engines": {
     "node": ">=14"
